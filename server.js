@@ -31,6 +31,7 @@ app.listen(process.env.PORT || 3000);
 /* 
  * Steps to create a new project
 
+ -Change name in package/package-lock.json
  -Create database with Atlas Clusters (choose driver when prompted)
  -Allow access from anywhere (IP whitelist) *Optional*
  -Connect to correct database in .env file
