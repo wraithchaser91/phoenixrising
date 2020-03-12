@@ -39,5 +39,5 @@ app.listen(process.env.PORT || 3000);
  -Connect to correct database in .env file
  -Link computer with GitHub https://www.youtube.com/watch?v=HfTXHrWMGVY (new machines only)
  -Create a new GitHub repository/Heroku project https://www.youtube.com/watch?v=qj2oDkvc4dQ
- -Configure congif-vars in heroku correctly, Settings->Config Vars (should mirror what you have in .env)
+ -Configure congif-vars in heroku correctly, Settings->Config Vars (should mirror what you have in .env without quote marks) 
 */
