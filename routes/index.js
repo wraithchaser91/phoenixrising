@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const {errorLog} = require("../utils.js");
 const Template = require("../models/template");
 const Relation = require("../models/relation");
 let id = 0;
@@ -49,9 +50,5 @@ router.get("/relation", async(req, res)=>{
     }
     res.send(object);
 });
-
-errorLog = error =>{
-    console.log(error);
-}
 
 module.exports = router;
