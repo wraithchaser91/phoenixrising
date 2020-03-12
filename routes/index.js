@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Template = require("../models/template");
 const Relation = require("../models/relation");
-
+let id = 0;
 router.get("/", async(req, res)=>{
+    id++;
+    console.log(id);
     res.render("index");
 });
 
@@ -17,7 +19,7 @@ router.get("/objects", async(req, res)=>{
     res.send(objects);
 });
 
-router.post("/newObject", async(req, res)=>{ //Should change this to post if creating a model
+router.post("/newObject", async(req, res)=>{
     if(req.body.name === ""){
         res.redirect("/");
         return;
