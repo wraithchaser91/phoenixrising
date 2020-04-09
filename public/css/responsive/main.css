@@ -1,0 +1,68 @@
+@media only screen and (min-width:768px) and (max-width: 1024px){
+    #header{
+        padding: 1vh 3vw;
+    }
+    #header .flex-row{
+        width:50%;
+    }
+}
+
+@media only screen and (max-width:767px){
+    *, ::before, ::after{
+        font-weight: 400;
+    }
+    .flex-column{
+        flex:unset;
+    }
+    #header{
+        display: none;
+    }
+    #mobileHeader{
+        display: flex;
+        padding:2vh 2vw;
+        margin:0;
+        width:100vw;
+        justify-content: space-between;
+    }
+    #mobileHeader #loginDetailsColumn{
+        width:unset;
+    }
+    #mobileHeader #hamburger{
+        width:10vw;
+    }
+    #mobileNav{
+        display: flex;
+        position: fixed;
+        width:45vw;
+        top: 8.5vh;
+        right: 0vw;
+        z-index: 99;
+        background-color: #000;
+        border-left: 1px solid var(--mainColour);
+        border-bottom: 1px solid var(--mainColour);
+        border-radius: 0px 0px 0px 20px;
+        box-shadow: -1px -1px 2px 2px #34343488;
+        transition: 0.3s;
+        transform:translateX(50vw);
+    }
+    #mobileNav a{
+        margin:1.5vh 0;
+    }
+
+    form button{
+        min-width: 25vw;
+    }
+
+    p{
+        text-align: center;
+    }
+
+    .error{
+        margin:2vh 7vw 0;
+    }
+
+    .navButton{
+        width:100%;
+        text-align: center;
+    }
+}

@@ -20,7 +20,7 @@ router.get("/playerdatabase", checkAuthentication, async(req, res)=>{
     }catch(e){
         errorLog(e);
     }
-    res.render("playerdatabase", {css:["playerpool"], user:req.user, players});
+    res.render("playerdatabase", {css:["playerpool", "responsive/playerpool"], user:req.user, players});
 });
 
 router.get("/login", checkUnAuthenticated, (req, res)=>{

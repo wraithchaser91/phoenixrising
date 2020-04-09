@@ -6,13 +6,6 @@ if(width >= 768 && width < 1025){
     device = "mobile";
 }
 
-let isStopShown = false;
-document.addEventListener("scroll", ()=>{
-    if(window.scrollY > screen.availHeight/2 && !isStopShown){
-        document.getElementById("stop").style.transform = "translateY(0)";
-    }
-});
-
 if(device == "mobile"){
     let isMenuShown = false;
     let navMenu = document.getElementById("mobileNav");

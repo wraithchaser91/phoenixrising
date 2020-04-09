@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Phoenix Rising</title>
     <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/responsive/main.css">
     <% if(typeof css != "undefined"){ %>
         <% if(typeof css == "String"){%>
             <link rel="stylesheet" type="text/css" href="<%= `/css/${css}.css` %>">
@@ -19,5 +20,7 @@
 <body>
     <%- include("../partials/publicHeader") %>
     <%- body %>
+
+    <script src="/js/public.js"></script>
 </body>
 </html>
