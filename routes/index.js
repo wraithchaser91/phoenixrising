@@ -1,54 +1,53 @@
 const express = require("express");
 const router = express.Router();
 const {errorLog} = require("../utils.js");
-const Template = require("../models/template");
-const Relation = require("../models/relation");
-let id = 0;
-router.get("/", async(req, res)=>{
-    id++;
-    console.log(id);
-    res.render("index");
+const User = require("../models/user");
+const passport = require("passport");
+const {checkUnAuthenticated, checkAuthentication} = require("../middleware");
+
+//method override
+const methodOverride = require("method-override");
+router.use(methodOverride("_method"));
+
+router.get("/", (req, res)=>{
+    res.render("index",{css:["home","responsive/home"], user:req.user});
 });
 
-router.get("/objects", async(req, res)=>{
-    let objects = [];
+router.get("/playerdatabase", checkAuthentication, async(req, res)=>{
+    let players;
     try{
-        objects = await Template.find({});
-    }catch(error){
-        errorLog(error);
+        players = await User.find({}).collation({locale: "en"}).sort({username: 1}).exec();
+    }catch(e){
+        errorLog(e);
     }
-    res.send(objects);
+    res.render("playerdatabase", {css:["playerpool"], user:req.user, players});
 });
 
-router.post("/newObject", async(req, res)=>{
-    if(req.body.name === ""){
-        res.redirect("/");
-        return;
-    }
-    try{
-        let template = new Template({name:req.body.name});
-        await template.save();
-        let relation = new Relation({name:"test", template});
-        await relation.save();
-    }catch(error){
-        errorLog(error);
-    }
-    res.redirect("/objects");
+router.get("/login", checkUnAuthenticated, (req, res)=>{
+    res.render("login", {destination:"home"});
 });
 
-router.get("/relation", async(req, res)=>{
-    let object;
-    let nameToFind = "";
-    if(req.query.name && req.query.name != ""){
-        nameToFind = req.query.name;
-    }
-    try{
-        let user = await Template.findOne({name:nameToFind});
-        object = await Relation.findOne({template:user});
-    }catch(error){
-        errorLog(error);
-    }
-    res.send(object);
+router.get("/login/:destination", checkUnAuthenticated, (req, res)=>{
+    let error = (req.session.error=="ERROR"?"ERROR":"");
+    delete req.session.error;
+    res.render("login", {destination:req.params.destination, message:error});
+});
+
+router.post("/loginCheck/:destination", (req,res,next)=>{
+    passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err); }
+        if (!user) { req.session.error = "ERROR"; return res.redirect(`/login/${req.params.destination}`); }
+        req.logIn(user, function(err) {
+          if (err) { return next(err); }
+          return res.redirect(`/${(req.params.destination=="home"?"":req.params.destination)}`);
+        });
+      })(req, res, next);
+});
+
+//logout route
+router.delete("/logout", (req, res)=>{
+    req.logOut();
+    res.redirect("/");
 });
 
 module.exports = router;

@@ -1,0 +1,19 @@
+<div class="flex-column" id="hero">
+    <h2 id="loginString">Login</h2>
+    <p>
+        Please login to be able to access member only pages
+    </p>
+    <form action="<%= `/loginCheck/${destination}` %>" method="POST">
+        <label for="username">Username</label>
+        <input type="text" name="username" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" autocomplete="off" required>
+        <button>Submit</button>
+    </form>
+
+    <% if(typeof message != "undefined" && message=="ERROR"){ %>
+        <h3 class="error">Please enter valid credentials</h3>
+        <h3 class="error">If you think this may be a mistake then please contact Dave or Steve directly</h3>
+        <a href="https://www.facebook.com/groups/216736632764307/" target="_blank" class="error">Phoenix Rising Facebook Group</a>
+    <%}%>
+</hero>

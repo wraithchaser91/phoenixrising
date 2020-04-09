@@ -1,0 +1,53 @@
+<div class="flex-column" id="hero">
+    <h1>Phoenix Rising Player Pool</h1>
+    <div class="flex-column" id="searchColumn">
+        <p>Search for a player by typing in their real name or their screen name</p>
+        <input type="text" id="searchBar" autofocus>
+    </div>
+
+    <% if(typeof players != "undefined"){ %>
+        <% players.forEach(item=>{ %>
+            <div class="flex-row playerRow">
+                <h3 class="username"><%= item.username %></h3>
+                <h3 class="realname"><%= (item.realName=="??"?"Unknown":item.realName) %></h3>
+            </div>
+        <%})%>
+    <%}%>
+</div>
+
+<script>
+    class PlayerRow{
+        constructor(ref,username,realname){
+            this.ref = ref;
+            this.username = username.toLowerCase();
+            this.realname = realname.toLowerCase();
+        }
+        change(boo){
+            if(boo)this.ref.style.display = "flex";
+            else this.ref.style.display = "none";
+        }
+        isIn(val){
+            console.log(this.username, val, this.username.includes(val));
+            if(this.username.includes(val))this.change(true);
+            else if(this.realname.includes(val))this.change(true);
+            else this.change(false);
+        }
+    }
+
+    let playerRows = [];
+    let playerRowElements = document.getElementsByClassName("playerRow");
+    for(let row of playerRowElements){
+        playerRows.push(new PlayerRow(row, row.getElementsByClassName("username")[0].textContent, row.getElementsByClassName("realname")[0].textContent));
+    }
+
+    let searchbar = document.getElementById("searchBar");
+    searchbar.addEventListener("keyup", ()=>{
+        checkNames(searchbar.value.toLowerCase());
+    });
+
+    checkNames = val =>{
+        for(let row of playerRows){
+            row.isIn(val);
+        }
+    }
+</script>

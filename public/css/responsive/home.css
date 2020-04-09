@@ -1,0 +1,183 @@
+@media only screen and (min-width:768px) and (max-width: 1024px){
+    #header{
+        padding: 1vh 3vw;
+    }
+    #header img{
+        width: 110px;
+    }
+    #header .flex-row{
+        width:50%;
+    }
+    #fish img{
+        width: 250px;
+    }
+    .infoString{
+        font-size: 0.8em;
+    }
+    .fifty{
+        width:80%;
+    }
+    .gameType{
+        max-width: 25%;
+    }
+    #flow{
+        width:300px;
+    }
+    .suitSeperator{
+        margin: 1vh 0;
+    }
+    .suitSeperator img{
+        width: 60px;
+    }
+    #final{
+        margin:3vh 20vw 10vh;
+    }
+
+    /*Additionls*/
+
+    #shark::before{
+        bottom: 7vh;
+        right: -2vw;
+        transform: rotate(-25deg) scale(0.8);
+    }
+
+    #fish::before{
+        bottom: -11vh;
+        right: -17vw;
+        transform: rotate(-25deg) scale(0.6);
+    }
+
+    #whale::before{
+        bottom: 32vh;
+        left: -16vw;
+        transform: rotate(21deg) rotateY(180deg) scale(0.7)
+    }
+
+    #chips::before{
+        bottom: -18vh;
+        left: 21vw;
+        transform: rotate(-32deg) scaleX(2.3) scale(0.7);
+        filter: opacity(0.2) brightness(0.2);
+    }
+}
+
+@media only screen and (max-width:767px){
+    .flex-column{
+        flex:unset;
+    }
+    #header{
+        display: none;
+    }
+    #mobileHeader{
+        display: flex;
+        padding:2vh 2vw;
+        margin:0;
+        width:100vw;
+    }
+    #mobileHeader img{
+        width: 20vw;
+    }
+    #mobileHeader #hamburger{
+        width:10vw;
+    }
+    #mobileNav{
+        display: flex;
+        position: fixed;
+        width:45vw;
+        top: 6.5vh;
+        right: 0vw;
+        z-index: 99;
+        background-color: #000;
+        border-left: 1px solid var(--mainColour);
+        border-bottom: 1px solid var(--mainColour);
+        border-radius: 0px 0px 0px 20px;
+        box-shadow: -1px -1px 2px 2px #34343488;
+        transition: 0.3s;
+        transform:translateX(50vw);
+    }
+    #mobileNav .mobileToScroll{
+        margin:1.5vh 0;
+    }
+    #fish img{
+        width:80vw;
+    }
+    h1{
+        font-size: 1.8em;
+        text-align: center;
+    }
+    h1::before{
+        bottom: -4.3vh
+    }
+    h1::after{
+        bottom: -8.5vh;
+    }
+    p{
+        font-size: 0.8em;
+    }
+    #hero .flex-column:nth-child(1){
+        order:1;
+    }
+    #hero .flex-column:nth-child(2){
+        order:0;
+        margin-bottom: 5vh;
+    }
+    .infoString{
+        font-size: 0.6em;
+    }
+    h2, #fundsGTD{
+        text-align: center;
+        font-size: 1.2em;
+    }
+    .downloadLink{
+        margin:0 1vw;
+    }
+    .fifty{
+        width:90%;
+    }
+    .gameType{
+        max-width:75vw;
+        margin-bottom:3vh;
+    }
+    #flow{
+        width:80vw;
+    }
+    .suitSeperator{
+        margin:2vh 0;
+    }
+    .suitSeperator img{
+        width:50px;
+    }
+    #final{
+        margin:5vh 5vw 10vh;
+    }
+    #stop{
+        width:150px;
+        bottom:-0.5vh;
+    }
+    /*Additionls*/
+
+    #shark::before{
+        bottom: 8vh;
+        right: 1vw;
+        transform: rotate(-25deg) scale(0.8);
+    }
+
+    #fish::before{
+        bottom: -38vh;
+        right: -12vw;
+        transform: rotate(-25deg) scale(0.6);
+    }
+
+    #whale::before{
+        bottom: 47vh;
+        left: -59vw;
+        transform: rotate(21deg) rotateY(180deg) scale(0.7);
+    }
+
+    #chips::before{
+        bottom: 0vh;
+        left: -12vw;
+        transform: rotate(0deg) scaleX(0.9) scale(0.7);
+        filter: opacity(0.5) brightness(0.2);
+    }
+}

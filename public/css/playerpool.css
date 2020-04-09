@@ -1,0 +1,17 @@
+#searchColumn{
+    background-color: black;
+    position: sticky;
+    top:7.5vh;
+    z-index: 50;
+    padding: 5vh 0 2vh;
+}
+
+#searchColumn #searchBar{
+    padding:0.5vh 0.3vw;
+    border-radius:8px;
+}
+
+.playerRow{
+    max-width:30%;
+    justify-content: space-between;
+}

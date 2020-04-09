@@ -1,0 +1,264 @@
+.fifty{
+    width: 50%;
+    text-align: center;
+}
+
+.start{
+    justify-content: flex-start;
+}
+
+.alt-row{
+    padding: 2vh 0;
+    background-image: linear-gradient(170deg, var(--altBGColour) 0%, #0c0c0c 100%);
+    box-shadow: 0px 1px 8px 2px #121212;
+}
+
+.suitSeperator{
+    margin:5vh 0;
+}
+
+.suitSeperator img{
+    margin:0 2vw;
+    width: 100px;
+}
+
+#hero .flex-column{
+    margin: 0 0;
+}
+
+#hero .flex-column:nth-child(2){
+    align-items: center;
+}
+
+h1::before{
+    content: '';
+    width: 35%;
+    position: absolute;
+    height: 50px;
+    display: block;
+    border-bottom: 2px solid var(--mainColour);
+    border-radius: 50%;
+    left: 38%;
+    bottom: -3.3vh;
+    opacity: 0.5;
+}
+
+h1::after{
+    content: '';
+    width: 35%;
+    position: absolute;
+    height: 50px;
+    display: block;
+    border-top: 2px solid var(--mainColour);
+    border-radius: 50%;
+    left: 24%;
+    bottom: -6vh;
+    opacity: 0.5;
+}
+
+#clubID{
+    font-size: 1.6em;
+}
+
+.infoString{
+    position: relative;
+    color: white;
+    font-size: 1em;
+}
+
+.downloadLink{
+    margin: 0vh 3vw;
+}
+
+.bulletImg{
+    width: 15px;
+}
+
+.mirror .flex-column:nth-child(1){
+    align-items: flex-end;
+    margin-right:1vw;
+}
+
+.mirror .flex-column:nth-child(2){
+    align-items: flex-start;
+    margin-left:1vw;
+}
+
+#banner1{
+    margin:3vh 0;
+}
+
+#banner1 h3{
+    font-size: 1.3em;
+}
+
+.gameType{
+    padding:1vh 1vw;
+    position: relative;
+    max-width: 15vw;
+    border-radius: 15px;
+    align-items: flex-start;
+    margin: 0 5vw;
+    z-index: 5;
+}
+
+.gameType::before{
+    content:'';
+    position: absolute;
+    z-index: -1;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;    
+    border-radius: 15px;
+    filter: brightness(0.3);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.gameType h2{
+    font-family: "Lobster", serif;
+    margin-bottom:0.2vh;
+    font-size: 2em;
+}
+
+.gameType h3{
+    color:white;
+}
+
+#holdemImage{
+    border-bottom: 3px solid rgb(1, 189, 95);
+    border-right: 3px solid rgb(1, 189, 95);
+    border-top: 1px solid rgb(1, 189, 95);
+    border-left: 1px solid rgb(1, 189, 95);
+}
+
+#ploImage{
+    border-bottom: 3px solid var(--secondaryColour);
+    border-right: 3px solid var(--secondaryColour);
+    border-top: 1px solid var(--secondaryColour);
+    border-left: 1px solid var(--secondaryColour);
+}
+
+#ofcImage{
+    border-bottom: 3px solid rgb(211, 190, 0);
+    border-right: 3px solid rgb(211, 190, 0);
+    border-top: 1px solid rgb(211, 190, 0);
+    border-left: 1px solid rgb(211, 190, 0);
+}
+
+#holdemImage::before{
+    background-image:url("../img/nlh.png");
+}
+
+#ploImage::before{
+    background-image:url("../img/plo.png");
+}
+
+#ofcImage::before{
+    background-image:url("../img/ofc.png");
+}
+
+#fundsGTD{
+    font-size: 1.5em;
+}
+
+#final{
+    text-align: center;
+    margin:3vh 0;
+}
+
+#stop{
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width: 200px;
+    z-index: 99;
+    transition: 0.3s;
+    transform:translateY(10vh);
+}
+
+#stop img{
+    box-shadow: 5px -6px 8px 2px #23232388;
+    border-radius: 0px 15px 0px 0px;
+    width: 100%;
+}
+
+/*Additionls*/
+#shark,
+#fish,
+#whale,
+#chips{
+    position: relative;
+}
+
+#shark::before{
+    content: '';
+    position: absolute;
+    background-image: url("../img/shark.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 340px;
+    height: 150px;
+    bottom: 5vh;
+    right: 0vw;
+    transform: rotate(-25deg);
+    filter: contrast(0.7) opacity(0.4) brightness(0.1);
+    z-index: -1;
+}
+
+#fish::before{
+    content: '';
+    position: absolute;
+    background-image: url("../img/fish.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 340px;
+    height: 150px;
+    bottom: -7vh;
+    right: -10vw;
+    transform: rotate(-25deg);
+    filter: contrast(0.7) opacity(0.4) brightness(0.2);
+    z-index: -1;
+}
+
+#whale::before{
+    content: '';
+    position: absolute;
+    background-image: url("../img/whale.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 480px;
+    height: 150px;
+    bottom: 9vh;
+    left: -10vw;
+    transform: rotate(21deg) rotateY(180deg) scale(0.7);
+    filter: opacity(0.1) brightness(0.2);
+    z-index: -1;
+}
+
+#chips::before{
+    content: '';
+    position: absolute;
+    background-image: url("../img/chips.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 440px;
+    height: 700px;
+    bottom: -7vh;
+    left: 12vw;
+    transform: rotate(-32deg) scaleX(2);
+    filter: opacity(0.2) brightness(0.2);
+    z-index: -1;
+}
+
+#loginString{
+    font-size: 3em;
+    margin-top:5vh;
+    color:var(--mainColour);
+}

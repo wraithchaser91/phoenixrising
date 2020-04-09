@@ -1,0 +1,20 @@
+<div class="flex-row" id="header">
+    <a href="https://access.gaminglabs.com/certificate/index?i=277" target="_blank"><img src="/img/glicertified.png" draggable=false></a>
+    <% if(typeof user != "undefined"){ %>
+        <% if(user.permissionLevel != 0){ %>
+            <a href="/admin">Admin Panel</a>
+        <%}%>
+    <%}%>
+    <div class="flex-row">
+        <a href="/" class="navButton">Home</a>
+        <a href="/playerdatabase" class="navButton">Find A Player</a>
+        <div class="flex-column" id="loginDetailsColumn">
+            <% if(typeof user == "undefined"){%>
+                <a href="/login" id="loginButton">Login</a>
+            <%}else{%>
+                <h3 class="loginDetails"><%= user.username %></h3>
+                <form id="logoutForm" action="/logout?_method=DELETE" method="POST"><button type="submit">Logout</button></form>
+            <%}%>
+        </div>
+    </div>
+</div>

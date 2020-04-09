@@ -1,0 +1,43 @@
+User log in system
+
+General User
+
+The ability to log in
+To change their password -> Active as soon as login
+To acces publicly facing member-only pages -> Tournament Schedule, Types of games
+The ability to verify a profile i.e. accept that the username is themselves -> Verified User
+
+Verified User
+
+The ablility to create new tournaments -> Create A Tournament page
+The ability to vote on tournaments -> Choose A Tournament page
+The ability to change their mind about which tournament they vote for
+The ability to view/search through the user database -> Find A Player page
+
+Admin
+
+The ability to create new users
+The ability to change the current status of creating/voting on tournaments
+The ability to choose active comps to be voted on
+The ability to remove players
+The ability to reset a users password
+The ability to add next 'big' comp
+The ability to view all logs
+The ability to add an account record
+The ability to view/filter/search account records
+
+Pages
+
+Login -> General username & pw entry
+Setup -> Only seen once, will get the user to change their password and also verify who they are
+Home Page -> Displays current tournament choices and count down? to next 'big' tournament
+Create a Tournament -> Split in 2 (changed by admin) First half create own comp, second half vote on comp and see votes for each (Verified user)
+Find a Player -> Open database that lists all current users -> Will show username, realname, verification status (verified user)
+Profile -> Allows a user to change details about themselves (user name, password)
+Accounts (Admin) -> Allows admins to enter a new deposit/withdrawal and the ability to search through all records. Will also have an up to date bank balance and the option to change the PP balance in the app
+
+Models
+
+User -> Username, Password, RealName, IsVerified, IsTempPassword, PermissionLevel
+Tournament -> Name, BuyIn, StackSize, IsRebuy, RebuyAmount, RebuyCost, RebuyChips, IsAddon, AddonCost, AddonChips, BlindDuration, StartTime, MaxPlayers, GameType, LateReg
+General -> PPBalance, BigTournament (not req)
