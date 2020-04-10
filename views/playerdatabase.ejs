@@ -2,6 +2,7 @@
     <h1>Phoenix Rising Player Pool</h1>
     <div class="flex-column" id="searchColumn">
         <p>Search for a player by typing in their real name or their screen name</p>
+        <p id="verifyString">Verified players are denoted by a <span>&#9733;</span></p>
         <input type="text" id="searchBar" autofocus>
     </div>
 
@@ -9,7 +10,7 @@
         <% players.forEach(item=>{ %>
             <div class="flex-row playerRow">
                 <h3 class="username"><%= item.username %></h3>
-                <h3 class="realname"><%= (item.realName=="??"?"Unknown":item.realName) %></h3>
+                <h3 class="realname <%= (item.isVerified?`verified`:``) %>"><%= (item.realName=="??"?"Unknown":item.realName) %></h3>
             </div>
         <%})%>
     <%}%>

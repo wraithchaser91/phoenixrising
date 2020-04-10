@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Phoenix Rising</title>
+    <link rel="shortcut icon" href="/img/siteIcon.jpg" />
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/responsive/main.css">
     <% if(typeof css != "undefined"){ %>
@@ -18,6 +19,7 @@
     <%}%>
 </head>
 <body>
+    <%let isError = true; %>
     <%- include("../partials/publicHeader") %>
     <%- body %>
 

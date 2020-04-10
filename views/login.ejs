@@ -5,15 +5,15 @@
     </p>
     <form action="<%= `/loginCheck/${destination}` %>" method="POST">
         <label for="username">Username</label>
-        <input type="text" name="username" required value="Steven Kitchener">
+        <input type="text" name="username" required>
         <label for="password">Password</label>
-        <input type="password" name="password" autocomplete="off" required value="PhoenixRising">
+        <input type="password" name="password" autocomplete="off" required>
         <button>Submit</button>
     </form>
 
+    <a href="https://www.facebook.com/groups/216736632764307/" target="_blank" id="facebookLink">Phoenix Rising Facebook Group</a>
     <% if(typeof message != "undefined" && message=="ERROR"){ %>
         <h3 class="error">Please enter valid credentials</h3>
         <h3 class="error">If you think this may be a mistake then please contact Dave or Steve directly</h3>
-        <a href="https://www.facebook.com/groups/216736632764307/" target="_blank" class="error">Phoenix Rising Facebook Group</a>
     <%}%>
 </hero>

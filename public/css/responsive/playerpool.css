@@ -1,5 +1,13 @@
 @media only screen and (min-width:768px) and (max-width: 1024px){
-   
+    #searchColumn{
+        top:5.5vh;
+    }.playerRow{
+        max-width: 50%;
+    }
+    .verified::after{
+        top: -1.6vh;
+        right: -1.5vw;
+    }
 }
 
 @media only screen and (max-width:767px){
@@ -15,5 +23,10 @@
 
     .playerRow h3{
         font-size: 1em;
+    }
+
+    .verified::after{
+        top:-0vh;
+        right:-4.5vw;
     }
 }

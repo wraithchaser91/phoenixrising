@@ -29,7 +29,7 @@ router.post("/newplayer", async(req,res)=>{
         })
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(defaultPassword, salt);
-        user.password = hashedPassword
+        user.password = hashedPassword;
         await user.save();
     }catch(e){
         errorLog(e);

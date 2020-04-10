@@ -1,0 +1,45 @@
+<div class="flex-column" id="hero">
+    <h1>Verification</h1>
+    <p>Before continuing on you need to finish setting up your profile<br>Please choose a new password and make sure all other information is correct</p>
+    <form action="<%= `/verification/${destination}` %>" method="POST" id="verifyForm">
+        <label for="screenName">Screen Name</label>
+        <input type="text" value="<%= user.username %>" name="screenName" required>
+        <label for="realName">Real Name</label>
+        <input type="text" value="<%= (user.realName=="??"?"":user.realName) %>" name="realName" required>
+        <label class="infoLabel">Your Password should be at least 8 characters long</label>
+        <label for="password">New Password</label>
+        <input type="password" name="password" id="password" required autofocus>
+        <label for="newPassword">Retype Password</label>
+        <input type="password" id="newPassword" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3 class="error"></h3>
+</div>
+
+<script>
+    isError = false;
+    let errorString = document.getElementsByClassName("error")[0];
+    let form = document.getElementById("verifyForm");
+    form.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        if(validateForm()){
+            form.submit();
+        }
+    })
+
+    validateForm = () =>{
+        errorString.textContent = "";
+        let password1 = document.getElementById("password");
+        if(password1.value.length < 8){
+            errorString.textContent = "Please make sure your password is at least 8 characters";
+            return false;
+        }
+        let password2 = document.getElementById("newPassword");
+        if(password1.value != password2.value){
+            errorString.textContent = "Passwords do not match";
+            return false;
+        }
+        return true;
+    }
+</script>

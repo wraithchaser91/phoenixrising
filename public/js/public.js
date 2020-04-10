@@ -18,3 +18,12 @@ if(device == "mobile"){
         isMenuShown = !isMenuShown;
     });
 }
+
+let errors = document.getElementsByClassName("error");
+if(errors.length != 0 && isError){
+    setTimeout(()=>{
+        for(let error of errors){
+            error.style.transform = "scale(0)";
+        }
+    },3000);
+}

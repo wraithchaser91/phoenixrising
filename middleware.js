@@ -26,6 +26,18 @@ checkAdmin = (req, res, next) =>{
     }
 }
 
+checkVerification = (req, res, next) =>{
+    if(typeof req.user == "undefined"){
+        res.redirect(`/`);
+    }else{
+        if(req.user.isVerified){
+            return next();
+        }else{
+            res.redirect(`/verification${findRoute(req)}`);
+        }
+    }
+}
+
 findRoute = req =>{
     if(typeof req.route == "undefined")return "/admin";
     else return req.route.path;
@@ -34,5 +46,6 @@ findRoute = req =>{
 module.exports = {
     checkAuthentication: checkAuthentication,
     checkUnAuthenticated: checkUnAuthenticated,
-    checkAdmin: checkAdmin
+    checkAdmin: checkAdmin,
+    checkVerification: checkVerification
 }

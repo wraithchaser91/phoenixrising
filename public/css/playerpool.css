@@ -1,9 +1,10 @@
 #searchColumn{
     background-color: black;
     position: sticky;
-    top:7.5vh;
+    top:9vh;
     z-index: 50;
-    padding: 5vh 0 2vh;
+    padding: 3vh 0 2vh;
+    margin-bottom:1vh;
 }
 
 #searchColumn #searchBar{
@@ -14,4 +15,22 @@
 .playerRow{
     max-width:30%;
     justify-content: space-between;
+}
+
+.verified{
+    position: relative;
+}
+
+.verified::after{
+    content:'\2605';
+    position: absolute;
+    top: -1.6vh;
+    right: -0.7vw;
+    transform:scale(0.7);
+}
+
+#verifyString{
+    color:var(--mainColour);
+    font-size: 0.8em;
+    margin-top: -1vh;
 }

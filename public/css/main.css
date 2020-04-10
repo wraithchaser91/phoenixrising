@@ -127,6 +127,7 @@ h2{
 p{
     margin: 0 3vw 2vh;
     color: #c1c1c1;
+    text-align: center;
 }
 
 a{
@@ -148,7 +149,7 @@ form{
 form input{
     width:80%;
     border-radius: 8px;
-    margin-bottom:1vh;
+    margin-bottom:1.5vh;
     padding:0.5vh 0.3vw;
     text-align: center;
 }
@@ -169,18 +170,32 @@ form button:hover{
     color:#fff;
 }
 
+form label{
+    text-align: center;
+    margin-bottom:0.3vh;
+}
+
+form .infoLabel{
+    max-width:66%;
+    margin:1vh 0;
+    color: var(--secondaryColour);
+    font-size: 0.7em;
+}
+
 .error{
     color:var(--errorColour);
     font-size:0.8em;
     margin-top:2vh;
     text-align: center;
+    transition: 0.3s;
 }
 
-a[class^="error"]{
+#facebookLink{
     color: var(--tertiaryColour);
+    margin:2vh 0 0;
 }
 
-a[class^="error"]:hover{
+#facebookLink:hover{
     color: var(--secondaryColour);
 }
 
