@@ -19,11 +19,11 @@ if(device == "mobile"){
     });
 }
 
-let errors = document.getElementsByClassName("error");
-if(errors.length != 0 && isError){
+let infoMessages = document.getElementsByClassName("infoMessage");
+if(infoMessages.length != 0){
     setTimeout(()=>{
-        for(let error of errors){
-            error.style.transform = "scale(0)";
+        for(let message of infoMessages){
+            message.style.transform = "scale(0)";
         }
     },3000);
 }

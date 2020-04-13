@@ -1,9 +1,44 @@
 <div class="flex-column" id="hero">
-    <form action="/admin/newplayer" method="POST">
-        <label>Username</label>
-        <input type="text" name="username" required autofocus>
-        <label>Real Name</label>
-        <input type="text" name="realname" required>
-        <button type="submit">Save</button>
-    </form>
+    <% if(message.error){ %>
+        <% message.error.forEach(item=>{%>
+            <h3 class="error infoMessage"><%= item %></h3>
+        <%})%>
+    <%}%>
+    <% if(message.info){ %>
+        <% message.info.forEach(item=>{%>
+            <h3 class="infoMessage"><%= item %></h3>
+        <%})%>
+    <%}%>
+    <div class="flex-row" id="adminRow">
+        <div class="flex-column">
+            <h2>Add New Payment</h2>
+            <form action="" method="POST">
+                <input type="radio" id="male" name="gender" value="male">
+                <label for="male">Male</label><br>
+                <input type="radio" id="female" name="gender" value="female">
+                <label for="female">Female</label><br>
+            </form>
+        </div>
+        <div class="flex-column">
+            <h2>Add New Player</h2>
+            <form action="/admin/newplayer" method="POST">
+                <label>Username</label>
+                <input type="text" name="username" required autofocus>
+                <label>Real Name</label>
+                <input type="text" name="realname" required>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+        <div class="flex-column">
+            <h2>Player List</h2>
+            <div class="flex-column" id="playerList">
+                <% players.forEach(item=>{ %>
+                    <a href="<%= `/admin/player/${item._id}` %>" class="flex-row playerRow">
+                        <h3><%= item.realName %></h3>
+                        <h3>View</h3>
+                    </a>
+                <%})%>
+            </div>
+        </div>
+    </div>
 </div>

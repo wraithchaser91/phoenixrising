@@ -1,0 +1,21 @@
+#adminRow{
+    width:66%;
+}
+
+#playerList{
+    max-height:18vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: flex-start;
+}
+
+.playerRow{
+    justify-content: space-between;
+    width:65%;
+    margin-bottom:1vh;
+}
+
+#verifyString{
+    margin-bottom:2vh;
+    color:var(--secondaryColour);
+}

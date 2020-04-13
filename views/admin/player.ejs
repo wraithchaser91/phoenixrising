@@ -1,0 +1,16 @@
+<div class="flex-column" id="hero">
+    <h2>Update Player</h2>
+    <h3 id="verifyString"><%= (player.isVerified?"Player is verified":"Player is not verified") %></h3>
+    <form action="<%= `/admin/player/${player._id}` %>" method="POST">
+        <label for="realName">Real Name</label>
+        <input type="text" name="realName" value="<%= player.realName %>" required>
+        <label for="username">Screen Name</label>
+        <input type="text" name="username" value="<%= player.username %>" required>
+        <button type="submit">Update</button>
+    </form>
+    <p>"Reset Password" will change this players login password back to "PhoenixRising" and can not be undone</p>
+    <form action="<%= `/admin/resetPassword/${player._id}` %>" method="POST">
+        <button type="submit">Reset Password</button>
+    </form>
+    <a href="/admin" id="backButton">Back</a>
+</div>

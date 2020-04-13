@@ -1,0 +1,6 @@
+<div class="flex-column" id="hero">
+    <h1>Log Book</h1>
+    <% logs.forEach(item=>{%>
+        <h3 class="altColour"><%= `${item.timestamp.toString().split(" GMT")[0]} - ${item.username} - ${item.message}` %></h3>
+    <%})%>
+</div>

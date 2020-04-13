@@ -1,7 +1,10 @@
 <div class="flex-row" id="header">
     <% if(typeof user != "undefined"){ %>
         <% if(user.permissionLevel != 0){ %>
-            <div class="flex-row" id="adminNav"><a href="/admin">Admin Panel</a></div>
+            <div class="flex-row" id="adminNav">
+                <a href="/admin" class="navButton">Admin Panel</a>
+                <a href="/admin/logs" class="navButton">Logs</a>
+            </div>
         <%}%>
     <%}%>
     <div class="flex-row">

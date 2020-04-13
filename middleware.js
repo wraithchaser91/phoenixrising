@@ -38,14 +38,27 @@ checkVerification = (req, res, next) =>{
     }
 }
 
+checkTempPassword = (req, res, next) =>{
+    if(typeof req.user == "undefined"){
+        res.redirect(`/`);
+    }else{
+        if(!req.user.isTempPassword){
+            return next();
+        }else{
+            res.redirect(`/tempPassword/${req.user._id}${findRoute(req)}`);
+        }
+    }
+}
+
 findRoute = req =>{
     if(typeof req.route == "undefined")return "/admin";
     else return req.route.path;
 }
 
 module.exports = {
-    checkAuthentication: checkAuthentication,
-    checkUnAuthenticated: checkUnAuthenticated,
-    checkAdmin: checkAdmin,
-    checkVerification: checkVerification
+    checkAuthentication,
+    checkUnAuthenticated,
+    checkAdmin,
+    checkVerification,
+    checkTempPassword
 }

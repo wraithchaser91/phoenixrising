@@ -87,10 +87,6 @@ body{
     display: none;
 }
 
-#header #adminNav{
-    margin-right:1vw;
-}
-
 #header .flex-row{
     width:unset;
     margin:0;
@@ -161,8 +157,9 @@ form button{
     background-color: var(--secondaryColour);
     border:none;
     color:#232323;
-    padding: 1vh 0;
+    padding: 1vh 2vw;
     cursor:pointer;
+    margin-bottom: 2.5vh;
 }
 
 form button:hover{
@@ -180,14 +177,6 @@ form .infoLabel{
     margin:1vh 0;
     color: var(--secondaryColour);
     font-size: 0.7em;
-}
-
-.error{
-    color:var(--errorColour);
-    font-size:0.8em;
-    margin-top:2vh;
-    text-align: center;
-    transition: 0.3s;
 }
 
 #facebookLink{
@@ -210,7 +199,7 @@ form .infoLabel{
 
 #logoutForm button{
     padding:0vh 0;
-    margin-top:0.1vh;
+    margin:0.1vh 0 0;
     background-color: transparent;
     color:white;
     font-size: 0.7em;
@@ -219,4 +208,34 @@ form .infoLabel{
 
 #logoutForm button:hover{
     color:var(--secondaryColour);
+}
+
+.altColour{
+    color:var(--secondaryColour);
+}
+
+.altColour:nth-of-type(odd){
+    filter:hue-rotate(45deg);
+}
+
+#backButton{
+    margin-top:1vh;
+    color: var(--tertiaryColour);
+}
+
+#backButton:hover{
+    color:var(--mainColour);
+}
+
+.infoMessage{
+    color:var(--tertiaryColour);
+    font-size:1em;
+    margin:1vh 0;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.error{
+    color:var(--errorColour);
+    font-size: 0.8em;
 }
