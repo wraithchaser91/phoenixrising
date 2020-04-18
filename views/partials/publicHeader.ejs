@@ -14,7 +14,6 @@
             <% if(typeof user == "undefined"){%>
                 <a href="/login" id="loginButton">Login</a>
             <%}else{%>
-                <h3 class="loginDetails"><%= user.username %></h3>
                 <form id="logoutForm" action="/logout?_method=DELETE" method="POST"><button type="submit">Logout</button></form>
             <%}%>
         </div>
@@ -25,7 +24,6 @@
         <% if(typeof user == "undefined"){%>
             <a href="/login" id="loginButton">Login</a>
         <%}else{%>
-            <h3 class="loginDetails"><%= user.username %></h3>
             <form id="logoutForm" action="/logout?_method=DELETE" method="POST"><button type="submit">Logout</button></form>
         <%}%>
     </div>
