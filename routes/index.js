@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const {errorLog, render} = require("../utils.js");
 const User = require("../models/user");
-const Log = require("../models/log");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const {checkUnAuthenticated, checkAuthentication, checkVerification, checkTempPassword} = require("../middleware");
@@ -34,20 +33,12 @@ router.get("/login/:destination", checkUnAuthenticated, (req, res)=>{
 });
 
 router.post("/loginCheck/:destination", async(req,res,next)=>{
-    try{
-        const log = new Log({
-          username:req.body.username,
-          message:"Log in attempt"
-        });
-        await log.save();
-    }catch(e){
-        errorLog(e);
-    }
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err); }
-        if (!user) { req.flash("error", "login failed"); return res.redirect(`/login/${req.params.destination}`); }
+        if (!user) { req.flash("log", `Login failed: ${req.body.username}`);req.flash("error", `Login failed: ${req.body.username}`); return res.redirect(`/login/${req.params.destination}`); }
         req.logIn(user, function(err) {
           if (err) { return next(err); }
+          req.flash("log", `Login success: ${req.body.username}`);
           return res.redirect(`/${(req.params.destination=="home"?"":req.params.destination)}`);
         });
       })(req, res, next);
@@ -73,11 +64,7 @@ router.post("/verification/:destination", async(req,res)=>{
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
         user.password = hashedPassword;
         await user.save();
-        const log = new Log({
-            username:user.username,
-            message:"User Verification"
-        });
-        await log.save();
+        req.flash("log", `Verification success: ${user.realName}`);
     }catch(e){
         errorLog(e);
     }
@@ -98,6 +85,7 @@ router.post("/tempPassword/:id/:destination", async(req,res)=>{
         user.password = hashedPassword;
         user.isTempPassword = false;
         await user.save();
+        req.flash("log", `Temporary password changed: ${user.realName}`);
     }catch(e){
         errorLog(e);
     }

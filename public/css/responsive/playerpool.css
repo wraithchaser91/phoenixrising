@@ -1,8 +1,6 @@
 @media only screen and (min-width:768px) and (max-width: 1024px){
-    #searchColumn{
-        top:5.5vh;
-    }.playerRow{
-        max-width: 50%;
+    .playerRow{
+        max-width: 90%;
     }
     .verified::after{
         top: -1.6vh;
@@ -12,21 +10,23 @@
 
 @media only screen and (max-width:767px){
     h1{
-        font-size: 2em;
-        margin:0 3vw;
+        font-size: 1.3em;
+        margin:0 3vw 0vh;
         text-align: center;
     }
-
+    p{
+        font-size: 0.7em;
+    }
     .playerRow{
-        max-width:85%;
+        max-width:97%;
     }
 
     .playerRow h3{
-        font-size: 1em;
+        font-size: 0.9em;
     }
 
     .verified::after{
-        top:-0vh;
-        right:-4.5vw;
+        top:-1vh;
+        right:-4vw;
     }
 }

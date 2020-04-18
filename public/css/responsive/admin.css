@@ -1,8 +1,25 @@
 @media only screen and (min-width:768px) and (max-width: 1024px){
+    .adminRow{
+        width:95%;
+    }
+    .raisedDiv{
+        min-height:45vh;
+    }
+    h2{
+        font-size: 1.2em;
+    }
+    .recordRow h3{
+        font-size: 0.8em;
+    }
 }
 
 @media only screen and (max-width:767px){
-    #adminRow{
-        width:95%;
+    .adminRow{
+        width:80%;
+        margin-bottom: 0;
+    }
+
+    .recordRow h3{
+        font-size: 0.6em;
     }
 }

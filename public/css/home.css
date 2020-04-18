@@ -1,6 +1,5 @@
-.fifty{
-    width: 50%;
-    text-align: center;
+body::before{
+    background-image: unset;
 }
 
 .start{
@@ -60,14 +59,27 @@ h1::after{
     font-size: 1.6em;
 }
 
+#clubID::selection{
+    color:var(--secondaryColour);
+    background-color: black;
+}
+
 .infoString{
     position: relative;
     color: white;
-    font-size: 1em;
+    font-size: 0.9em;
 }
 
 .downloadLink{
     margin: 0vh 3vw;
+    transform: translate(0,0);
+    transition:0.3s;
+    box-shadow: 0px 0px 0px 0px #000;
+}
+
+.downloadLink:hover{
+    transform: translate(0.2vw,-1vh);
+    box-shadow: -3px 3px 10px 3px #000a;
 }
 
 .bulletImg{
@@ -171,12 +183,12 @@ h1::after{
 
 #stop{
     position: fixed;
-    bottom: 0;
+    bottom: -2%;
     left:0;
     width: 200px;
     z-index: 99;
     transition: 0.3s;
-    transform:translateY(10vh);
+    transform:translateY(110%);
 }
 
 #stop img{
@@ -250,7 +262,7 @@ h1::after{
     background-size: cover;
     width: 440px;
     height: 700px;
-    bottom: -7vh;
+    bottom: 3vh;
     left: 12vw;
     transform: rotate(-32deg) scaleX(2);
     filter: opacity(0.2) brightness(0.2);

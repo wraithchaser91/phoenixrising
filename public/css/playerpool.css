@@ -1,9 +1,6 @@
 #searchColumn{
-    background-color: black;
-    position: sticky;
-    top:9vh;
     z-index: 50;
-    padding: 3vh 0 2vh;
+    padding: 0vh 0 1vh;
     margin-bottom:1vh;
 }
 
@@ -13,8 +10,13 @@
 }
 
 .playerRow{
-    max-width:30%;
     justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+.playerRow:hover h3{
+    color: var(--secondaryColour);
+    cursor: default;
 }
 
 .verified{
@@ -24,13 +26,17 @@
 .verified::after{
     content:'\2605';
     position: absolute;
-    top: -1.6vh;
-    right: -0.7vw;
+    top: -1.2vh;
+    right: -0.6vw;
     transform:scale(0.7);
 }
 
 #verifyString{
     color:var(--mainColour);
     font-size: 0.8em;
-    margin-top: -1vh;
+    margin: -1.1vh 0 1vh;
+}
+
+#searchBar{
+    text-align: center;
 }

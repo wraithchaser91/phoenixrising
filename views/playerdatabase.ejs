@@ -1,11 +1,12 @@
 <div class="flex-column" id="hero">
     <h1>Phoenix Rising Player Pool</h1>
     <div class="flex-column" id="searchColumn">
-        <p>Search for a player by typing in their real name or their screen name</p>
+        <p>Search for a player by typing in their name</p>
         <p id="verifyString">Verified players are denoted by a <span>&#9733;</span></p>
         <input type="text" id="searchBar" autofocus>
     </div>
 
+    <div class="flex-column centeredColumn raisedDiv">
     <% if(typeof players != "undefined"){ %>
         <% players.forEach(item=>{ %>
             <div class="flex-row playerRow">
@@ -14,6 +15,7 @@
             </div>
         <%})%>
     <%}%>
+</div>
 </div>
 
 <script>

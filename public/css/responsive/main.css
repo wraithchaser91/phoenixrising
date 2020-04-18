@@ -1,15 +1,24 @@
 @media only screen and (min-width:768px) and (max-width: 1024px){
+    *{
+        font-weight: 400;
+    }
     #header{
-        padding: 1vh 3vw;
+        padding: 2vh 3vw;
     }
     #header .flex-row{
         width:33%;
+    }
+    .centeredColumn{
+        width:60%;
     }
 }
 
 @media only screen and (max-width:767px){
     *, ::before, ::after{
         font-weight: 400;
+    }
+    body::before{
+        filter: brightness(0.05);
     }
     .flex-column{
         flex:unset;
@@ -28,41 +37,51 @@
         width:unset;
     }
     #mobileHeader #hamburger{
-        width:10vw;
+        width:8vw;
     }
     #mobileNav{
         display: flex;
         position: fixed;
         width:45vw;
-        top: 8.5vh;
+        top: 7.5vh;
         right: 0vw;
         z-index: 99;
         background-color: #000;
         border-left: 1px solid var(--mainColour);
         border-bottom: 1px solid var(--mainColour);
         border-radius: 0px 0px 0px 20px;
-        box-shadow: -1px -1px 2px 2px #34343488;
+        background: linear-gradient(145deg, #232323, #000);
         transition: 0.3s;
         transform:translateX(50vw);
     }
     #mobileNav a{
         margin:1.5vh 0;
     }
-
     form button{
         min-width: 25vw;
     }
-
-    p{
+    h2{
         text-align: center;
+        font-size: 1.2em;
     }
-
+    p{
+        font-size: 0.9em;
+        text-align: center;
+        margin:2vh 10vw;
+    }
     .error{
         margin:2vh 7vw 0;
     }
-
     .navButton{
         width:100%;
         text-align: center;
+    }
+    .centeredColumn{
+        width:90%;
+        max-height:50vh;
+    }
+    .raisedDiv{
+        margin-bottom:4vh;
+        min-height: unset;
     }
 }

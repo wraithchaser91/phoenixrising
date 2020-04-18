@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville|Roboto|Montserrat&display=swap');
+
 *, ::before, ::after{
     margin:0;
     padding:0;
@@ -53,6 +55,22 @@ body{
     overflow-x: hidden;
 }
 
+body::before{
+    content: '';
+    position: absolute;
+    background-image: url(/img/phoenixBG.jpg);
+    width: 100%;
+    min-height: 90%;
+    top: 10%;
+    left: 0;
+    background-position: 62% 17%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    filter: brightness(0.015);
+    z-index: -1;
+}
+
 .flex-column{
     display: flex;
     flex-direction: column;
@@ -72,6 +90,11 @@ body{
     position: relative;
     width: 100%;
     margin-bottom:3vh;
+}
+
+.fifty{
+    width: 50%;
+    text-align: center;
 }
 
 #header, #mobileHeader{
@@ -104,7 +127,7 @@ body{
 }
 
 #hero{
-    margin:14vh 0 7vh;
+    margin:14vh 0 0vh;
 }
 
 h1{
@@ -112,18 +135,32 @@ h1{
     margin-bottom:3.3vh;
     position: relative;
     z-index: 10;
+    font-family: 'Libre Baskerville', serif;
 }
 
 h2{
+    font-family: 'Libre Baskerville', serif;
     font-size: 2em;
     color: white;
-    margin-bottom: 4vh;
+    margin-bottom: 2vh;
+}
+
+h3{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+}
+
+h5{
+    font-size: 0.8em;
+    color: var(--secondaryColour);
+    margin:0.5vh 0;
 }
 
 p{
     margin: 0 3vw 2vh;
     color: #c1c1c1;
     text-align: center;
+    font-family: 'Montserrat', sans-serif;
 }
 
 a{
@@ -132,7 +169,7 @@ a{
 }
 
 a:hover{
-    color: var(--mainColour);
+    color: var(--tertiaryColour);
 }
 
 form{
@@ -142,7 +179,7 @@ form{
     justify-content: center;
 }
 
-form input{
+form input, form select{
     width:80%;
     border-radius: 8px;
     margin-bottom:1.5vh;
@@ -238,4 +275,56 @@ form .infoLabel{
 .error{
     color:var(--errorColour);
     font-size: 0.8em;
+}
+
+.unchosen{
+    background-color: var(--altBGColour);
+    color: #888;
+    border: 1px solid #333;
+}
+
+.chosen{
+    background-color: #1f9d56;
+    color:#fff;
+    cursor: default;
+}
+
+.unchosen:hover{
+    background-color: var(--altBGColour);
+    color: #eee;
+    border-color: #666;
+}
+
+.raisedDiv{
+    padding:2%;
+    margin:1vh 1vw;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #1c1d21aa, #17181c33);
+    box-shadow:  3px 3px 6px #101114, 
+                 -3px -3px 6px #24252a;
+    min-height:38vh;
+    justify-content: flex-start;
+    scrollbar-color: var(--mainColour) var(--altBGColour);
+    scrollbar-width: thin;
+
+}
+
+.centeredColumn{
+    max-height:60vh;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width:33%;
+    margin:2vh 0;
+    padding:1% 2%;
+}
+
+.bigButton{
+    width:15%;
+    border:3px solid var(--altBGColour);
+    box-shadow: 5px 5px 2px 2px #23232333;
+    text-align: center;
+    padding:2vh 0;
+    border-radius: 10px;
+    margin: 1vh 1vw;
 }

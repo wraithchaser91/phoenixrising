@@ -3,6 +3,8 @@ const router = express.Router();
 const {errorLog, render} = require("../utils.js");
 const User = require("../models/user");
 const Log = require("../models/log");
+const Record = require("../models/record");
+const Bankroll = require("../models/bankroll");
 const bcrypt = require("bcryptjs");
 const {checkAuthentication, checkAdmin} = require("../middleware");
 let defaultPassword = "PhoenixRising";
@@ -13,14 +15,55 @@ router.use(checkAdmin);
 
 router.get("/", async(req, res)=>{
     let players = [];
+    let records = [];
+    let bankroll;
+    let total = 0;
+    let logs = [];
     try{
+        // let user = await User.findOne({realName:"Dave Holland"});
+        // req.user = user;
         players = await User.find({}).sort({realName:1}).exec();
+        records = await Record.find({});
+        total = findTotal(records);
+        records = records.slice(-10);
+        let bankrolls = await Bankroll.find({});
+        bankroll = bankrolls[bankrolls.length-1];
+        logs = await Log.find({}).sort({timestamp:-1}).exec();
+        logs = filterLogs(logs,["Stevn Kitchener"]);
+        if(logs.length > 10)logs = logs.slice(-10);
     }catch(e){
-        req.flash("error", "Error finding players");
+        req.flash("error", "Error finding players or records");
         errorLog(e);
     }
-    render(req,res,"admin",{css,players});
+    render(req,res,"admin",{css,players,records,total,bankroll,logs});
 });
+
+router.post("/newRecord", async(req,res)=>{
+    try{
+        let record = new Record({
+            player: req.body.playerName,
+            type: req.body.type,
+            amount: req.body.amount,
+            timestamp: req.body.date
+        });
+        await record.save();
+        req.flash("info", "Record added successfully");
+    }catch(e){
+        req.flash("error", "Error adding new record");
+        errorLog(e);
+    }
+    res.redirect("/admin");
+});
+
+router.get("/records", async(req,res)=>{
+    let records = [];
+    try{
+        records = await Record.find({});
+    }catch(e){
+        errorLog(e);
+    }
+    render(req,res,"admin/records", {css,records});
+})
 
 router.get("/player/:id", async(req,res)=>{
     try{
@@ -38,6 +81,13 @@ router.post("/player/:id", async(req,res)=>{
     try{
         let player = await User.findById(req.params.id);
         if(player && typeof player != "undefined"){
+            if(player.realName != req.body.realName){
+                let records = await Record.find({player:player.realName});
+                for(let record of records){
+                    record.player = req.body.realName;
+                    await record.save();
+                }
+            }
             player.username = req.body.username;
             player.realName = req.body.realName;
             await player.save();
@@ -92,16 +142,70 @@ router.post("/resetPassword/:id", async(req, res)=>{
         errorLog(e);
     }
     res.redirect("/admin");
-})
+});
+
+router.post("/bankroll", async(req,res)=>{
+    let bankroll = new Bankroll({
+        bankBalance:req.body.bankBalance,
+        playerChips:req.body.playerChips,
+        davesBalance:req.body.davesBalance,
+        stevesBalance:req.body.stevesBalance
+    });
+    try{
+        await bankroll.save();
+        req.flash("info", "Banktoll Added")
+    }catch(e){
+        req.flash("error", "Error adding bankroll");
+        errorLog(e);
+    }
+    res.redirect("/admin");
+});
 
 router.get("/logs", async(req,res)=>{
     let logs = [];
     try{
         logs = await Log.find({}).sort({timestamp:-1}).exec();
+        //logs = filterLogs(logs,["Steven Kitchener", "Dave Holland"]);
     }catch(e){
         errorLog(e);
     }
     render(req,res,"admin/logs", {css,logs});
 });
+
+//logout route
+router.delete("/deleteRecord/:id", async(req, res)=>{
+    try{
+        let record = await Record.findById(req.params.id);
+        if(record && typeof record != "undefined"){
+            await record.remove();
+            req.flash("info", "Record deleted successfully");
+        }else{
+            req.flash("error", "Error deleting record, could not find record");
+        }
+    }catch(e){
+        req.flash("error", "Error deleting record");
+        errorLog(e);
+    }
+    res.redirect("/admin");
+});
+
+findTotal = records =>{
+    let amount = 0;
+    for(let record of records){
+        if(record.type=="Deposit"){
+            amount+=record.amount;
+        }else{
+            amount-=record.amount;
+        }
+    }
+    return amount;
+}
+
+filterLogs = (logs,toFilter) =>{
+    for(let string of toFilter){
+        logs = logs.filter(item=>!item.message.includes(string));
+    }
+    return logs;
+}
 
 module.exports = router;

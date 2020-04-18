@@ -1,0 +1,37 @@
+<div class="flex-column" id="hero">
+    <h1>Records</h1>
+    <h3>Showing <%= records.length %> Records</h3>
+    <div class="flex-column centeredColumn raisedDiv">
+        <% for(let i = records.length-1; i>=0; i--){%>
+            <div class="flex-row recordRow">
+                <h3><%= records[i].player %></h3>
+                <h3>£<%= records[i].amount %></h3>
+                <h3><%= records[i].type %></h3>
+                <h3><%= `${formatDate(records[i].timestamp)}`%></h3>
+                <form action="<%= `/admin/deleteRecord/${records[i]._id}?_method=DELETE` %>" method="POST"><button type="submit">X</button></form>
+            </div>
+        <%}%>
+    </div>
+    <a href="/admin">Back</a>
+</div>
+
+<script>
+    let records = document.getElementsByClassName("recordRow");
+    let delButtons = [];
+    let activeDelButton;
+    for(let record of records){
+        let delButton = record.getElementsByTagName("button")[0];
+        record.addEventListener("dblclick", (e)=>{
+            e.stopPropagation();
+            delButton.style.transform = "scale(1) rotate(0deg)";
+            activeDelButton = delButton;
+        });
+    }
+
+    document.addEventListener("click", ()=>{
+        if(typeof activeDelButton != "undefined" && activeDelButton){
+            activeDelButton.style.transform = "scale(0) rotate(180deg)";
+            activeDelButton = null;
+        }
+    })
+</script>

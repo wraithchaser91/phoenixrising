@@ -1,37 +1,49 @@
 <div class="flex-column" id="hero">
     <% if(message.error){ %>
         <% message.error.forEach(item=>{%>
-            <h3 class="error infoMessage"><%= item %></h3>
+            <h3 class="error infoMessage adminInfo"><%= item %></h3>
         <%})%>
     <%}%>
     <% if(message.info){ %>
         <% message.info.forEach(item=>{%>
-            <h3 class="infoMessage"><%= item %></h3>
+            <h3 class="infoMessage adminInfo"><%= item %></h3>
         <%})%>
     <%}%>
-    <div class="flex-row" id="adminRow">
-        <div class="flex-column">
-            <h2>Add New Payment</h2>
-            <form action="" method="POST">
-                <input type="radio" id="male" name="gender" value="male">
-                <label for="male">Male</label><br>
-                <input type="radio" id="female" name="gender" value="female">
-                <label for="female">Female</label><br>
-            </form>
-        </div>
-        <div class="flex-column">
+    <div class="flex-row adminRow">
+        <div class="flex-column raisedDiv">
             <h2>Add New Player</h2>
             <form action="/admin/newplayer" method="POST">
                 <label>Username</label>
-                <input type="text" name="username" required autofocus>
+                <input type="text" name="username" required>
                 <label>Real Name</label>
                 <input type="text" name="realname" required>
                 <button type="submit">Save</button>
             </form>
         </div>
-        <div class="flex-column">
+        <div class="flex-column raisedDiv">
+            <h2>Add New Payment</h2>
+            <form action="/admin/newRecord" method="POST" id="newRecordForm">
+                <div class="flex-row" id="buttonChoiceRow">
+                    <button type="button" class="chosen" id="deposit">Deposit</button>
+                    <button type="button" class="unchosen" id="withdrawal">Withdrawal</button>
+                </div>
+                <label for="playerName">Player Name</label>
+                <select name="playerName">
+                    <% players.forEach(item=>{ %>
+                        <% if(item.realName!="??"){%>
+                            <option value="<%= item.realName %>"><%= item.realName %></option>
+                        <%}%>
+                    <%})%>
+                </select>
+                <label for="amount">Amount</label>
+                <input type="number" name="amount" step="0.01" autofocus required>
+
+                <button type="submit">Add Payment</button>
+            </form>
+        </div>
+        <div class="flex-column raisedDiv">
             <h2>Player List</h2>
-            <div class="flex-column" id="playerList">
+            <div class="flex-column raisedDiv" id="playerList">
                 <% players.forEach(item=>{ %>
                     <a href="<%= `/admin/player/${item._id}` %>" class="flex-row playerRow">
                         <h3><%= item.realName %></h3>
@@ -41,4 +53,144 @@
             </div>
         </div>
     </div>
+    <div class="flex-row adminRow">
+        <div class="flex-column raisedDiv">
+            <h2>Balances</h2>
+            <form action="/admin/bankroll" method="POST" id="balanceForm">
+                <div class="flex-row">
+                    <div class="flex-column">
+                        <label for="bankBalance">Bank Balance</label>
+                        <input name="bankBalance" value="<%= total %>" id="bankBalance" readonly required>
+                    </div>
+                    <div class="flex-column">
+                        <label for="playerChips">Player Chips</label>
+                        <input type="number" step="0.01" name="playerChips" value="<%= bankroll.playerChips %>" id="playerChips" required>
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <div class="flex-column">
+                        <label for="davesBalance">Dave's Balance</label>
+                        <input type="number" step="0.01" name="davesBalance" value="<%= bankroll.davesBalance %>" id="davesBalance" required>
+                    </div>
+                    <div class="flex-column">
+                        <label for="stevesBalance">Steve's Balance</label>
+                        <input type="number" step="0.01" name="stevesBalance" value="<%= bankroll.stevesBalance %>" id="stevesBalance" required>
+                    </div>
+                </div>
+                <h3 id="profitTotal">Total: £$$$</h3>
+                <h5>As of <%= formatDate(bankroll.timestamp) %></h5>
+                <% if(user.realName=="Steven Kitchener"){ %>
+                    <button type="submit">Update</button> 
+                <%}%>
+            </form>
+        </div>
+        <div class="flex-column raisedDiv">
+            <h2>Recent Payments</h2>
+            <% for(let i = records.length-1; i>=0; i--){%>
+                <div class="flex-row recordRow">
+                    <h3><%= records[i].player %></h3>
+                    <h3>£<%= records[i].amount %></h3>
+                    <h3><%= records[i].type %></h3>
+                    <h3><%= `${formatDate(records[i].timestamp)}`%></h3>
+                    <form action="<%= `/admin/deleteRecord/${records[i]._id}?_method=DELETE` %>" method="POST"><button type="submit">X</button></form>
+                </div>
+            <%}%>
+            <a href="/admin/records">See All</a>
+        </div>
+    </div>
 </div>
+
+<script>
+    let depButton = document.getElementById("deposit");
+    let withButton = document.getElementById("withdrawal");
+    let activeButton = depButton;
+
+    depButton.addEventListener("click", ()=>changeButtonStatus(depButton));
+    withButton.addEventListener("click", ()=>changeButtonStatus(withButton));
+
+    changeButtonStatus = actButton =>{
+        depButton.className = "unchosen";
+        withButton.className = "unchosen";
+        actButton.className = "chosen";
+        activeButton = actButton;
+    }
+
+    let form = document.getElementById("newRecordForm");
+    form.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        if(validateForm()){
+            form.submit();
+        }
+    })
+    
+    validateForm = () =>{
+        let input = document.createElement("input");
+        input.value = (activeButton==depButton?"Deposit":"Withdrawal");
+        input.name = "type";
+        input.style.display = "none";
+        form.appendChild(input);
+        
+        let newDate = new Date().toISOString().split("T")[0];
+        let dateInput = document.createElement("input");
+        dateInput.value=newDate;
+        dateInput.name="date";
+        dateInput.style.display = "none";;
+        form.appendChild(dateInput);
+        return true;
+    }
+    
+    let balanceForm = document.getElementById("balanceForm");
+    balanceForm.addEventListener("keydown", (e)=>{
+        if(e.key=="Enter"){
+            e.preventDefault();
+            return false;
+        }
+    });
+    balanceForm.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        if(validateBalanceForm()){
+            balanceForm.submit();
+        }
+    });
+
+    let bankBalance = document.getElementById("bankBalance").value;
+    let playerChipsInput = document.getElementById("playerChips");
+    let davesBalance = document.getElementById("davesBalance");
+    let stevesBalance = document.getElementById("stevesBalance");
+    playerChipsInput.addEventListener("change", ()=>updateBalance());
+    davesBalance.addEventListener("change", ()=>updateBalance());
+    stevesBalance.addEventListener("change", ()=>updateBalance());
+    let profitTotalString = document.getElementById("profitTotal");
+    updateBalance = () =>{
+        if(playerChipsInput.value == "")return;
+        if(davesBalance.value == "")return;
+        if(stevesBalance.value == "")return;
+        let total = parseFloat(bankBalance) - parseFloat(playerChipsInput.value) + parseFloat(stevesBalance.value) + parseFloat(davesBalance.value);
+        profitTotalString.textContent = `Total: £${total.toFixed(2)}`
+    }
+
+    validateBalanceForm = () =>{
+        return true;
+    }
+
+    updateBalance();
+
+    let records = document.getElementsByClassName("recordRow");
+    let delButtons = [];
+    let activeDelButton;
+    for(let record of records){
+        let delButton = record.getElementsByTagName("button")[0];
+        record.addEventListener("dblclick", (e)=>{
+            e.stopPropagation();
+            delButton.style.transform = "scale(1) rotate(0deg)";
+            activeDelButton = delButton;
+        });
+    }
+
+    document.addEventListener("click", ()=>{
+        if(typeof activeDelButton != "undefined" && activeDelButton){
+            activeDelButton.style.transform = "scale(0) rotate(180deg)";
+            activeDelButton = null;
+        }
+    })
+</script>

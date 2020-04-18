@@ -1,21 +1,106 @@
-#adminRow{
-    width:66%;
+.adminRow{
+    width:75%;
+    margin-bottom:2vh;
 }
 
 #playerList{
     max-height:18vh;
+    min-height:18vh;
     overflow-y: auto;
     overflow-x: hidden;
     justify-content: flex-start;
+    width:70%;
 }
 
 .playerRow{
     justify-content: space-between;
-    width:65%;
+    width:90%;
     margin-bottom:1vh;
+}
+
+.playerRow h3{
+    font-size: 0.8em;
 }
 
 #verifyString{
     margin-bottom:2vh;
     color:var(--secondaryColour);
+}
+
+#buttonChoiceRow{
+    margin-bottom:1.5vh;
+}
+
+#buttonChoiceRow button{
+    margin:0;
+    padding:0.5vh 1vw;
+}
+
+#buttonChoiceRow button:nth-of-type(1){
+    border-radius: 8px 0 0 8px;
+}
+
+#buttonChoiceRow button:nth-of-type(2){
+    border-radius: 0 8px 8px 0;
+}
+
+.recordRow:last-of-type{
+    margin-bottom:2vh;
+}
+
+.recordRow{
+    justify-content: space-between;
+    margin-bottom: 0.5vh;
+}
+
+.recordRow h3{
+    flex: 1;
+    text-align: center;
+    font-size: 0.9em;
+    cursor: default;
+}
+
+.recordRow:nth-of-type(odd) h3{
+    filter:hue-rotate(25deg);
+}
+
+.recordRow:hover h3{
+    color:var(--tertiaryColour);
+}
+
+.recordRow form button{
+    position: absolute;
+    top: -1vh;
+    right: 1.2vw;
+    min-width:20px;
+    width:20px;
+    height:20px;
+    border-radius: 50%;
+    margin:0;
+    padding:0;
+    transition: 0.3s;
+    transform: scale(0) rotate(180deg);
+}
+
+.adminInfo{
+    margin-top:-1vh;
+}
+
+.adminInfo:first-of-type{
+    margin-top:-3vh;
+}
+
+#balanceForm{
+    width:66%;
+}
+
+#balanceForm input{
+    background-color: #0009;
+    border:none;
+    color:white;
+    width:50%;
+}
+
+#balanceForm .flex-row{
+    margin-bottom:1vh;
 }

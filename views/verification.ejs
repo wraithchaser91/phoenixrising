@@ -1,6 +1,7 @@
 <div class="flex-column" id="hero">
-    <h1>Verification</h1>
-    <p>Before continuing on you need to finish setting up your profile<br>Please choose a new password and make sure all other information is correct</p>
+    <h1>User Profile</h1>
+    <div class="flex-column raisedDiv centeredColumn">
+    <p>Please finish setting up your profile<br><br>Choose a new password and make sure all other information is correct</p>
     <form action="<%= `/verification/${destination}` %>" method="POST" id="verifyForm">
         <label for="screenName">Screen Name</label>
         <input type="text" value="<%= user.username %>" name="screenName" required>
@@ -13,7 +14,7 @@
         <input type="password" id="newPassword" required>
         <button type="submit">Submit</button>
     </form>
-
+    </div>
     <h3 class="error"></h3>
 </div>
 
