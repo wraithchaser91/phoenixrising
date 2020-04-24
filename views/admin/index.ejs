@@ -26,6 +26,8 @@
                 <div class="flex-row" id="buttonChoiceRow">
                     <button type="button" class="chosen" id="deposit">Deposit</button>
                     <button type="button" class="unchosen" id="withdrawal">Withdrawal</button>
+                    <button type="button" class="unchosen" id="expense">Expense</button>
+                    <button type="button" class="unchosen" id="dividend">Dividend</button>
                 </div>
                 <label for="playerName">Player Name</label>
                 <select name="playerName">
@@ -60,14 +62,8 @@
                 <div class="flex-row">
                     <div class="flex-column">
                         <label for="bankBalance">Bank Balance</label>
-                        <input name="bankBalance" value="<%= total %>" id="bankBalance" readonly required>
+                        <input name="bankBalance" value="<%= total.toFixed(2) %>" id="bankBalance" readonly required>
                     </div>
-                    <div class="flex-column">
-                        <label for="playerChips">Player Chips</label>
-                        <input type="number" step="0.01" name="playerChips" value="<%= bankroll.playerChips %>" id="playerChips" required>
-                    </div>
-                </div>
-                <div class="flex-row">
                     <div class="flex-column">
                         <label for="davesBalance">Dave's Balance</label>
                         <input type="number" step="0.01" name="davesBalance" value="<%= bankroll.davesBalance %>" id="davesBalance" required>
@@ -75,6 +71,20 @@
                     <div class="flex-column">
                         <label for="stevesBalance">Steve's Balance</label>
                         <input type="number" step="0.01" name="stevesBalance" value="<%= bankroll.stevesBalance %>" id="stevesBalance" required>
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <div class="flex-column">
+                        <label for="playerChips">Player Chips</label>
+                        <input type="number" step="0.01" name="playerChips" value="<%= bankroll.playerChips %>" id="playerChips" required>
+                    </div>
+                    <div class="flex-column">
+                        <label for="davesDividend">Dave's Dividend</label>
+                        <input type="number" step="0.01" name="davesDividend" value="<%= bankroll.davesDividend %>" id="davesDividend" required>
+                    </div>
+                    <div class="flex-column">
+                        <label for="stevesDividend">Steve's Dividend</label>
+                        <input type="number" step="0.01" name="stevesDividend" value="<%= bankroll.stevesDividend %>" id="stevesDividend" required>
                     </div>
                 </div>
                 <h3 id="profitTotal">Total: £$$$</h3>
@@ -103,14 +113,20 @@
 <script>
     let depButton = document.getElementById("deposit");
     let withButton = document.getElementById("withdrawal");
+    let expButton = document.getElementById("expense");
+    let dividButton = document.getElementById("dividend");
     let activeButton = depButton;
 
     depButton.addEventListener("click", ()=>changeButtonStatus(depButton));
     withButton.addEventListener("click", ()=>changeButtonStatus(withButton));
+    expButton.addEventListener("click", ()=>changeButtonStatus(expButton));
+    dividButton.addEventListener("click", ()=>changeButtonStatus(dividButton));
 
     changeButtonStatus = actButton =>{
         depButton.className = "unchosen";
         withButton.className = "unchosen";
+        expButton.className = "unchosen";
+        dividButton.className = "unchosen";
         actButton.className = "chosen";
         activeButton = actButton;
     }
@@ -125,7 +141,12 @@
     
     validateForm = () =>{
         let input = document.createElement("input");
-        input.value = (activeButton==depButton?"Deposit":"Withdrawal");
+        let value = "";
+        if(activeButton == depButton)value = "Desposit";
+        else if(activeButton == withButton)value = "Withdrawal";
+        else if(activeButton == expButton)value = "Expense";
+        else if(activeButton == dividButton)value = "Dividend";
+        input.value = value;
         input.name = "type";
         input.style.display = "none";
         form.appendChild(input);
@@ -157,15 +178,21 @@
     let playerChipsInput = document.getElementById("playerChips");
     let davesBalance = document.getElementById("davesBalance");
     let stevesBalance = document.getElementById("stevesBalance");
+    let davesDividend = document.getElementById("davesDividend");
+    let stevesDividend = document.getElementById("stevesDividend");
     playerChipsInput.addEventListener("change", ()=>updateBalance());
     davesBalance.addEventListener("change", ()=>updateBalance());
     stevesBalance.addEventListener("change", ()=>updateBalance());
+    davesDividend.addEventListener("change", ()=>updateBalance());
+    stevesDividend.addEventListener("change", ()=>updateBalance());
     let profitTotalString = document.getElementById("profitTotal");
     updateBalance = () =>{
         if(playerChipsInput.value == "")return;
         if(davesBalance.value == "")return;
         if(stevesBalance.value == "")return;
-        let total = parseFloat(bankBalance) - parseFloat(playerChipsInput.value) + parseFloat(stevesBalance.value) + parseFloat(davesBalance.value);
+        if(davesDividend.value == "")return;
+        if(stevesDividend.value == "")return;
+        let total = parseFloat(bankBalance) - parseFloat(playerChipsInput.value) + parseFloat(stevesBalance.value) + parseFloat(davesBalance.value) + parseFloat(stevesDividend.value) + parseFloat(davesDividend.value);
         profitTotalString.textContent = `Total: £${total.toFixed(2)}`
     }
 

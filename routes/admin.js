@@ -25,12 +25,10 @@ router.get("/", async(req, res)=>{
         players = await User.find({}).sort({realName:1}).exec();
         records = await Record.find({});
         total = findTotal(records);
-        records = records.slice(-10);
+        records = records.slice(-8);
         let bankrolls = await Bankroll.find({});
         bankroll = bankrolls[bankrolls.length-1];
-        logs = await Log.find({}).sort({timestamp:-1}).exec();
-        logs = filterLogs(logs,["Stevn Kitchener"]);
-        if(logs.length > 10)logs = logs.slice(-10);
+        console.log(bankrolls); //TODO check records
     }catch(e){
         req.flash("error", "Error finding players or records");
         errorLog(e);
@@ -149,8 +147,12 @@ router.post("/bankroll", async(req,res)=>{
         bankBalance:req.body.bankBalance,
         playerChips:req.body.playerChips,
         davesBalance:req.body.davesBalance,
-        stevesBalance:req.body.stevesBalance
+        stevesBalance:req.body.stevesBalance,
+        davesDividend:req.body.davesDividend,
+        stevesDividend:req.body.stevesDividend
     });
+    let total = bankroll.bankBalance - bankroll.playerChips + bankroll.davesBalance + bankroll.stevesBalance + bankroll.davesDividend + bankroll.stevesDividend;
+    bankroll.total = total;
     try{
         await bankroll.save();
         req.flash("info", "Banktoll Added")
@@ -165,7 +167,7 @@ router.get("/logs", async(req,res)=>{
     let logs = [];
     try{
         logs = await Log.find({}).sort({timestamp:-1}).exec();
-        //logs = filterLogs(logs,["Steven Kitchener", "Dave Holland"]);
+        logs = filterLogs(logs,["Steven Kitchener", "Dave Holland"]);
     }catch(e){
         errorLog(e);
     }

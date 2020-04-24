@@ -17,6 +17,18 @@ const bankrollSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    davesDividend:{
+        type: Number,
+        required: true
+    },
+    stevesDividend:{
+        type: Number,
+        required: true
+    },
+    total:{
+        type: Number,
+        required: true
+    },
     timestamp:{
         type: Date,
         required: true,
