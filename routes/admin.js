@@ -28,7 +28,6 @@ router.get("/", async(req, res)=>{
         records = records.slice(-8);
         let bankrolls = await Bankroll.find({});
         bankroll = bankrolls[bankrolls.length-1];
-        console.log(bankrolls); //TODO check records
     }catch(e){
         req.flash("error", "Error finding players or records");
         errorLog(e);
