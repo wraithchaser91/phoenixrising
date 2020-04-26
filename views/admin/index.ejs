@@ -93,6 +93,7 @@
                     <button type="submit">Update</button> 
                 <%}%>
             </form>
+            <a href="/admin/balances">See All</a>
         </div>
         <div class="flex-column raisedDiv">
             <h2>Recent Payments</h2>
@@ -142,7 +143,7 @@
     validateForm = () =>{
         let input = document.createElement("input");
         let value = "";
-        if(activeButton == depButton)value = "Desposit";
+        if(activeButton == depButton)value = "Deposit";
         else if(activeButton == withButton)value = "Withdrawal";
         else if(activeButton == expButton)value = "Expense";
         else if(activeButton == dividButton)value = "Dividend";

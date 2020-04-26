@@ -24,13 +24,18 @@ router.get("/", async(req, res)=>{
         // req.user = user;
         players = await User.find({}).sort({realName:1}).exec();
         records = await Record.find({});
+        for(let rec of records){
+            if(rec.type == "Desposit"){
+                rec.type = "Deposit";
+                await rec.save();
+            }
+        }
         total = findTotal(records);
         records = records.slice(-8);
         let bankrolls = await Bankroll.find({});
         bankroll = bankrolls[bankrolls.length-1];
     }catch(e){
-        req.flash("error", "Error finding players or records");
-        errorLog(e);
+        if(errorLog(e,req,res,"Error finding players or records"))return;
     }
     render(req,res,"admin",{css,players,records,total,bankroll,logs});
 });
@@ -46,8 +51,7 @@ router.post("/newRecord", async(req,res)=>{
         await record.save();
         req.flash("info", "Record added successfully");
     }catch(e){
-        req.flash("error", "Error adding new record");
-        errorLog(e);
+        if(errorLog(e,req,res,"Error adding new record"))return;
     }
     res.redirect("/admin");
 });
@@ -57,21 +61,22 @@ router.get("/records", async(req,res)=>{
     try{
         records = await Record.find({});
     }catch(e){
-        errorLog(e);
+        if(errorLog(e,req,res,"Error finding records","/admin"))return;
     }
     render(req,res,"admin/records", {css,records});
 })
 
 router.get("/player/:id", async(req,res)=>{
+    let player;
     try{
-        const player = await User.findById(req.params.id);
-        render(req,res,"admin/player", {css,player});
-        return;
+        player = await User.findById(req.params.id);
     }catch(e){
-        errorLog(e);
+        if(errorLog(e,req,res,`Error finding player: ${req.params.id}`,"/admin"))return;
     }
-    req.flash("error", "Error finding player");
-    res.redirect("/admin");
+    if(!player || typeof player == "undefined"){
+        if(errorLog("Error finding player",req,res,`Error finding player: ${req.params.id}`,"/admin"))return;
+    }
+    render(req,res,"admin/player", {css,player});
 });
 
 router.post("/player/:id", async(req,res)=>{
@@ -91,8 +96,7 @@ router.post("/player/:id", async(req,res)=>{
             req.flash("info", "Player Updated");
         }
     }catch(e){
-        req.flash("error", "Error when updating player");
-        errorLog(e);
+        if(errorLog(e,req,res,"Error when updating player"))return;
     }
     res.redirect("/admin");
 });
@@ -117,8 +121,7 @@ router.post("/newplayer", async(req,res)=>{
         await user.save();
         req.flash("info", "Player Added");
     }catch(e){
-        req.flash("error", "Error adding new player");
-        errorLog(e);
+        if(errorLog(e,req,res,"Error adding new player"))return;
     }
     res.redirect("/admin");
 });
@@ -135,10 +138,31 @@ router.post("/resetPassword/:id", async(req, res)=>{
             req.flash("info", "Password reset");
         }
     }catch(e){
-        req.flash("error", "Error resetting password");
-        errorLog(e);
+        if(errorLog(e,req,res,"Error resetting password"))return;
     }
     res.redirect("/admin");
+});
+
+router.get("/balances", async(req,res)=>{
+    let balances = [];
+    let totalExpenses;
+    let availableBalance;
+    try{
+        balances = await Bankroll.find({}).sort({timestamp:-1}).exec();
+        let records = await Record.find({});
+        totalExpenses = findTotalExpenses(records);
+        let total = findTotal(records);
+        availableBalance = balances[0].bankBalance - balances[0].playerChips + balances[0].stevesBalance + balances[0].davesBalance;
+    }catch(e){
+        if(errorLog(e,req,res,"Error getting bankrolls", "/admin"))return;
+    }
+    if(typeof totalExpenses == "undefined"){
+        if(errorLog(e,req,res,"Error finding total expenses", "/admin"))return;
+    }
+    if(typeof availableBalance == "undefined"){
+        if(errorLog(e,req,res,"Error finding available balance", "/admin"))return;
+    }
+    render(req,res,"admin/balances",{css,balances,totalExpenses,availableBalance});
 });
 
 router.post("/bankroll", async(req,res)=>{
@@ -156,8 +180,7 @@ router.post("/bankroll", async(req,res)=>{
         await bankroll.save();
         req.flash("info", "Banktoll Added")
     }catch(e){
-        req.flash("error", "Error adding bankroll");
-        errorLog(e);
+        if(errorLog(e,req,res,"Error adding bankroll"))return;
     }
     res.redirect("/admin");
 });
@@ -169,6 +192,7 @@ router.get("/logs", async(req,res)=>{
         logs = filterLogs(logs,["Steven Kitchener", "Dave Holland"]);
     }catch(e){
         errorLog(e);
+        if(errorLog(e,req,res,"Error getting logs","/admin"))return;
     }
     render(req,res,"admin/logs", {css,logs});
 });
@@ -181,11 +205,10 @@ router.delete("/deleteRecord/:id", async(req, res)=>{
             await record.remove();
             req.flash("info", "Record deleted successfully");
         }else{
-            req.flash("error", "Error deleting record, could not find record");
+            if(errorLog(e,req,res,"Error deleting record, could not find record"))return;
         }
     }catch(e){
-        req.flash("error", "Error deleting record");
-        errorLog(e);
+        if(errorLog(e,req,res,"Error deleting record"))return;
     }
     res.redirect("/admin");
 });
@@ -200,6 +223,15 @@ findTotal = records =>{
         }
     }
     return amount;
+}
+
+findTotalExpenses = records =>{
+    let totalExpenses = 0;
+    for(let rec of records){
+        if(rec.type == "Expense")totalExpenses+=rec.amount;
+    }
+
+    return totalExpenses;
 }
 
 filterLogs = (logs,toFilter) =>{

@@ -1,9 +1,12 @@
 const Log = require("./models/log");
 
-errorLog = e => console.log(`ERROR: ${e}`);
-
-addMessage = (req,type,message) =>{
-    req.flash(type,message);
+errorLog = (e,req,res,message,redirect="none") => {
+    console.log(`ERROR: ${e}`);
+    req.flash("error",message);
+    if(redirect != "none"){
+        res.redirect(redirect);
+        return true;
+    }
 }
 
 checkLog = async(req) =>{

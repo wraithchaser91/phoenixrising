@@ -1,0 +1,102 @@
+<% let lastBalance = balances[0]; %>
+
+<div class="flex-column" id="hero">
+    <h1>Balances</h1>
+    <div class="flex-row balanceRow">
+        <div class="flex-column">
+            <label>Bank Balance</label>
+        <h3 class="whiteNumber">£ <%= `${lastBalance.bankBalance.toFixed(2)}` %></h3>
+        </div>
+        <div class="flex-column">
+            <label>Dave's Balance</label>
+        <h3 class="whiteNumber"><%= `${lastBalance.davesBalance.toFixed(2)}` %></h3>
+        </div>
+        <div class="flex-column">
+            <label>Steve's Balance</label>
+        <h3 class="whiteNumber"><%= `${lastBalance.stevesBalance.toFixed(2)}` %></h3>
+        </div>
+        <div class="flex-column">
+            <label>Dave's Dividends</label>
+        <h3 class="whiteNumber">£ <%= `${lastBalance.davesDividend.toFixed(2)}` %></h3>
+        </div>
+        <div class="flex-column">
+            <label>Steve's Dividends</label>
+        <h3 class="whiteNumber">£ <%= `${lastBalance.stevesDividend.toFixed(2)}` %></h3>
+        </div>
+    </div>
+    <div class="flex-row balanceRow">
+        <div class="flex-column">
+            <label>Player Chips</label>
+        <h3 class="whiteNumber"><%= `${lastBalance.playerChips.toFixed(2)}` %></h3>
+        </div>
+        <div class="flex-column">
+            <label>Total Expenses</label>
+        <h3 class="whiteNumber">£ <%= `${totalExpenses.toFixed(2)}` %></h3>
+        </div>
+        <div class="flex-column">
+            <label>Available Balance</label>
+        <h3 class="whiteNumber">£ <%= `${availableBalance.toFixed(2)}` %></h3>
+        </div>
+        <div class="flex-column">
+            <label>Total Profit</label>
+        <h3 class="whiteNumber">£ <%= `${lastBalance.total.toFixed(2)}` %></h3>
+        </div>
+    </div>
+    <h5>All values correct as of <%= formatDateWithTimes(lastBalance.timestamp) %></h5>
+    <div class="flex-row recordRow raisedDiv" id="balanceHeadings">
+        <h3>Date</h3>
+        <h3>BB</h3>
+        <h3>PC</h3>
+        <h3>DS</h3>
+        <h3>SS</h3>
+        <h3>DD</h3>
+        <h3>SD</h3>
+        <h3>TP</h3>
+    </div>
+    <div class="flex-column centeredColumn raisedDiv balanceColumn">
+        <% for(let i = 0; i < balances.length; i++){ %>
+            <div class="flex-row recordRow balanceRecordRow">
+                <% let balDif = (i+1 < balances.length?balances[i].bankBalance-balances[i+1].bankBalance:"0") %>
+                <% let chipDif = (i+1 < balances.length?balances[i].playerChips-balances[i+1].playerChips:"0") %>
+                <% let dbDif = (i+1 < balances.length?balances[i].davesBalance-balances[i+1].davesBalance:"0") %>
+                <% let sbDif = (i+1 < balances.length?balances[i].stevesBalance-balances[i+1].stevesBalance:"0") %>
+                <% let ddDif = (i+1 < balances.length?balances[i].davesDividend-balances[i+1].davesDividend:"0") %>
+                <% let sdDif = (i+1 < balances.length?balances[i].stevesDividend-balances[i+1].stevesDividend:"0") %>
+                <% let totalDif = (i+1 < balances.length?balances[i].total-balances[i+1].total:"0") %>
+                <div class="flex-column">
+                    <h4 class="smallGreenNumber"><%= `${formatDateWithTimes(balances[i].timestamp).split(" ")[1]}` %></h4>
+                    <h3><%= `${formatDate(balances[i].timestamp)}` %></h3>
+                </div>
+                <div class="flex-column">
+                    <h4 class="<%= `small${(balDif=="0"?"Green":(balDif < 0?"Red":"Green"))}Number` %>"><%= `£${parseFloat(balDif).toFixed(2)}` %></h4>
+                    <h3>£ <%= `${balances[i].bankBalance.toFixed(2)}` %></h3>
+                </div>
+                <div class="flex-column">
+                    <h4 class="<%= `small${(chipDif=="0"?"Green":(chipDif < 0?"Red":"Green"))}Number` %>"><%= `${parseFloat(chipDif).toFixed(2)}` %></h4>
+                    <h3><%= `${balances[i].playerChips.toFixed(2)}` %></h3>
+                </div>
+                <div class="flex-column">
+                    <h4 class="<%= `small${(dbDif=="0"?"Green":(dbDif < 0?"Red":"Green"))}Number` %>"><%= `${parseFloat(dbDif).toFixed(2)}` %></h4>
+                    <h3><%= `${balances[i].davesBalance.toFixed(2)}` %></h3>
+                </div>
+                <div class="flex-column">
+                    <h4 class="<%= `small${(sbDif=="0"?"Green":(sbDif < 0?"Red":"Green"))}Number` %>"><%= `${parseFloat(sbDif).toFixed(2)}` %></h4>
+                    <h3><%= `${balances[i].stevesBalance.toFixed(2)}` %></h3>
+                </div>
+                <div class="flex-column">
+                    <h4 class="<%= `small${(ddDif=="0"?"Green":(ddDif < 0?"Red":"Green"))}Number` %>"><%= `£${parseFloat(ddDif).toFixed(2)}` %></h4>
+                    <h3>£ <%= `${balances[i].davesDividend.toFixed(2)}` %></h3>
+                </div>
+                <div class="flex-column">
+                    <h4 class="<%= `small${(sdDif=="0"?"Green":(sdDif < 0?"Red":"Green"))}Number` %>"><%= `£${parseFloat(sdDif).toFixed(2)}` %></h4>
+                    <h3>£ <%= `${balances[i].stevesDividend.toFixed(2)}` %></h3>
+                </div>
+                <div class="flex-column">
+                    <h4 class="<%= `small${(totalDif=="0"?"Green":(totalDif < 0?"Red":"Green"))}Number` %>"><%= `£${parseFloat(totalDif).toFixed(2)}` %></h4>
+                    <h3>£ <%= `${balances[i].total.toFixed(2)}` %></h3>
+                </div>
+            </div>
+        <%}%>
+    </div>
+    <a href="/admin">Back</a>
+</div>
