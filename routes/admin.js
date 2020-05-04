@@ -24,12 +24,6 @@ router.get("/", async(req, res)=>{
         // req.user = user;
         players = await User.find({}).sort({realName:1}).exec();
         records = await Record.find({});
-        for(let rec of records){
-            if(rec.type == "Desposit"){
-                rec.type = "Deposit";
-                await rec.save();
-            }
-        }
         total = findTotal(records);
         records = records.slice(-8);
         let bankrolls = await Bankroll.find({});
@@ -151,18 +145,18 @@ router.get("/balances", async(req,res)=>{
         balances = await Bankroll.find({}).sort({timestamp:-1}).exec();
         let records = await Record.find({});
         totalExpenses = findTotalExpenses(records);
-        let total = findTotal(records);
         availableBalance = balances[0].bankBalance - balances[0].playerChips + balances[0].stevesBalance + balances[0].davesBalance;
     }catch(e){
         if(errorLog(e,req,res,"Error getting bankrolls", "/admin"))return;
     }
     if(typeof totalExpenses == "undefined"){
-        if(errorLog(e,req,res,"Error finding total expenses", "/admin"))return;
+        if(errorLog("Error finding total expenses",req,res,"Error finding total expenses", "/admin"))return;
     }
     if(typeof availableBalance == "undefined"){
-        if(errorLog(e,req,res,"Error finding available balance", "/admin"))return;
+        if(errorLog("Error finding available balance",req,res,"Error finding available balance", "/admin"))return;
     }
-    render(req,res,"admin/balances",{css,balances,totalExpenses,availableBalance});
+    let newCSS = [...css, "balances", "responsive/balances"]
+    render(req,res,"admin/balances",{css:newCSS,balances,totalExpenses,availableBalance});
 });
 
 router.post("/bankroll", async(req,res)=>{
@@ -197,7 +191,6 @@ router.get("/logs", async(req,res)=>{
     render(req,res,"admin/logs", {css,logs});
 });
 
-//logout route
 router.delete("/deleteRecord/:id", async(req, res)=>{
     try{
         let record = await Record.findById(req.params.id);
@@ -209,6 +202,21 @@ router.delete("/deleteRecord/:id", async(req, res)=>{
         }
     }catch(e){
         if(errorLog(e,req,res,"Error deleting record"))return;
+    }
+    res.redirect("/admin");
+});
+
+router.delete("/deleteBalance/:id", async(req, res)=>{
+    try{
+        let bankroll = await Bankroll.findById(req.params.id);
+        if(bankroll && typeof bankroll != "undefined"){
+            await bankroll.remove();
+            req.flash("info", "Balance deleted successfully");
+        }else{
+            if(errorLog(e,req,res,"Error deleting balance, could not find balance"))return;
+        }
+    }catch(e){
+        if(errorLog(e,req,res,"Error deleting balance"))return;
     }
     res.redirect("/admin");
 });
@@ -233,6 +241,16 @@ findTotalExpenses = records =>{
 
     return totalExpenses;
 }
+
+router.get("/expenses", async(req,res)=>{
+    let expenses = [];
+    try{
+        expenses = await Record.find({type:"Expense"});
+    }catch(e){
+        console.log("Error: ",e);
+    }
+    res.json((expenses));
+});
 
 filterLogs = (logs,toFilter) =>{
     for(let string of toFilter){

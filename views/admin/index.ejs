@@ -38,7 +38,7 @@
                     <%})%>
                 </select>
                 <label for="amount">Amount</label>
-                <input type="number" name="amount" step="0.01" autofocus required>
+                <input type="text" name="amount" autofocus required>
 
                 <button type="submit">Add Payment</button>
             </form>
@@ -220,5 +220,12 @@
             activeDelButton.style.transform = "scale(0) rotate(180deg)";
             activeDelButton = null;
         }
-    })
+    });
+
+    let h3s = document.getElementsByTagName("h3");
+    let h4s = document.getElementsByTagName("h4");
+    let headings = [...h3s,...h4s];
+    for(let heading of headings){
+        heading.addEventListener("click", (e)=>e.preventDefault());
+    }
 </script>

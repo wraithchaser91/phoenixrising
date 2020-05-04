@@ -1,0 +1,25 @@
+@media only screen and (min-width:768px) and (max-width: 1024px){
+    .balanceColumn, #balanceHeadings{
+        width:80%;
+    }
+    .raisedDiv{
+        min-height:42vh;
+        max-height:42vh;
+    }
+    .balanceRecordRow{
+        margin-top:2vh;
+    }
+    .balanceRecordRow h4{
+        top:-2vh;
+        left:6vw;
+    }
+}
+@media only screen and (max-width:767px){
+    .balanceColumn, #balanceHeadings{
+        display: none;
+    }
+
+    .balanceRow .flex-column{
+        margin-bottom:1vh;
+    }
+}

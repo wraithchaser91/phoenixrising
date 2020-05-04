@@ -1,0 +1,63 @@
+#balanceHeadings{
+    min-height: unset;
+    width:50%;
+    padding:0.5% 2%;
+    margin: 3vh 0 -2vh;
+    z-index: 5;
+    background-image: linear-gradient(90deg, var(--altBGColour) 0%, #0a0a0a 100%);
+    border-bottom-left-radius:unset;
+    border-bottom-right-radius:unset;
+}
+
+.whiteNumber{
+    color:white;
+    font-size: 1.1em;
+}
+.smallRedNumber{
+    color:red;
+    font-size: 0.75em;
+}
+.smallGreenNumber{
+    color:green;
+    font-size: 0.75em;
+}
+
+.balanceRow .flex-column{
+    flex:unset;
+    width: unset;
+    min-width:200px;
+}
+
+.balanceRecordRow{
+    margin-top:0.7vh;
+}
+
+.balanceRecordRow .flex-column{
+    position: relative;
+}
+
+.balanceRecordRow:hover .flex-column h4{
+    filter:opacity(1);
+}
+
+.balanceColumn{
+    width:50%;
+    max-height: 45vh;
+}
+
+#balanceHeadings:hover h3{
+    color:var(--mainColour);
+}
+
+.balanceRecordRow h4{
+    position: absolute;
+    top:-1.2vh;
+    left:4vw;
+    filter:opacity(0);
+    transition: 0.3s;
+    cursor: default;
+}
+
+.balanceRecordHoverRow h4{
+    flex:1;
+}

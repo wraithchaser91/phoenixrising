@@ -5,41 +5,41 @@
     <div class="flex-row balanceRow">
         <div class="flex-column">
             <label>Bank Balance</label>
-        <h3 class="whiteNumber">£ <%= `${lastBalance.bankBalance.toFixed(2)}` %></h3>
+            <h3 class="whiteNumber">£ <%= `${lastBalance.bankBalance.toFixed(2)}` %></h3>
         </div>
         <div class="flex-column">
             <label>Dave's Balance</label>
-        <h3 class="whiteNumber"><%= `${lastBalance.davesBalance.toFixed(2)}` %></h3>
+            <h3 class="whiteNumber"><%= `${lastBalance.davesBalance.toFixed(2)}` %></h3>
         </div>
         <div class="flex-column">
             <label>Steve's Balance</label>
-        <h3 class="whiteNumber"><%= `${lastBalance.stevesBalance.toFixed(2)}` %></h3>
+            <h3 class="whiteNumber"><%= `${lastBalance.stevesBalance.toFixed(2)}` %></h3>
         </div>
         <div class="flex-column">
             <label>Dave's Dividends</label>
-        <h3 class="whiteNumber">£ <%= `${lastBalance.davesDividend.toFixed(2)}` %></h3>
+            <h3 class="whiteNumber">£ <%= `${lastBalance.davesDividend.toFixed(2)}` %></h3>
         </div>
         <div class="flex-column">
             <label>Steve's Dividends</label>
-        <h3 class="whiteNumber">£ <%= `${lastBalance.stevesDividend.toFixed(2)}` %></h3>
+            <h3 class="whiteNumber">£ <%= `${lastBalance.stevesDividend.toFixed(2)}` %></h3>
         </div>
     </div>
     <div class="flex-row balanceRow">
         <div class="flex-column">
             <label>Player Chips</label>
-        <h3 class="whiteNumber"><%= `${lastBalance.playerChips.toFixed(2)}` %></h3>
+            <h3 class="whiteNumber"><%= `${lastBalance.playerChips.toFixed(2)}` %></h3>
         </div>
         <div class="flex-column">
             <label>Total Expenses</label>
-        <h3 class="whiteNumber">£ <%= `${totalExpenses.toFixed(2)}` %></h3>
+            <h3 class="whiteNumber" id="expenseString">£ <%= `${totalExpenses.toFixed(2)}` %></h3>
         </div>
         <div class="flex-column">
             <label>Available Balance</label>
-        <h3 class="whiteNumber">£ <%= `${availableBalance.toFixed(2)}` %></h3>
+            <h3 class="whiteNumber">£ <%= `${availableBalance.toFixed(2)}` %></h3>
         </div>
         <div class="flex-column">
             <label>Total Profit</label>
-        <h3 class="whiteNumber">£ <%= `${lastBalance.total.toFixed(2)}` %></h3>
+            <h3 class="whiteNumber">£ <%= `${lastBalance.total.toFixed(2)}` %></h3>
         </div>
     </div>
     <h5>All values correct as of <%= formatDateWithTimes(lastBalance.timestamp) %></h5>
@@ -47,8 +47,8 @@
         <h3>Date</h3>
         <h3>BB</h3>
         <h3>PC</h3>
-        <h3>DS</h3>
-        <h3>SS</h3>
+        <h3>DB</h3>
+        <h3>SB</h3>
         <h3>DD</h3>
         <h3>SD</h3>
         <h3>TP</h3>
@@ -65,7 +65,7 @@
                 <% let totalDif = (i+1 < balances.length?balances[i].total-balances[i+1].total:"0") %>
                 <div class="flex-column">
                     <h4 class="smallGreenNumber"><%= `${formatDateWithTimes(balances[i].timestamp).split(" ")[1]}` %></h4>
-                    <h3><%= `${formatDate(balances[i].timestamp)}` %></h3>
+                    <h3 class="dateNTime"><%= `${formatDate(balances[i].timestamp)}` %></h3>
                 </div>
                 <div class="flex-column">
                     <h4 class="<%= `small${(balDif=="0"?"Green":(balDif < 0?"Red":"Green"))}Number` %>"><%= `£${parseFloat(balDif).toFixed(2)}` %></h4>
@@ -95,8 +95,62 @@
                     <h4 class="<%= `small${(totalDif=="0"?"Green":(totalDif < 0?"Red":"Green"))}Number` %>"><%= `£${parseFloat(totalDif).toFixed(2)}` %></h4>
                     <h3>£ <%= `${balances[i].total.toFixed(2)}` %></h3>
                 </div>
+                <form action="<%= `/admin/deleteBalance/${balances[i]._id}?_method=DELETE` %>" method="POST"><button type="submit">X</button></form>
             </div>
         <%}%>
     </div>
     <a href="/admin">Back</a>
 </div>
+
+<script>
+    let records = document.getElementsByClassName("recordRow");
+    let delButtons = [];
+    let activeDelButton;
+    let expenseString = document.getElementById("expenseString");
+    for(let record of records){
+        let delButton = record.getElementsByTagName("button")[0];
+        record.addEventListener("dblclick", (e)=>{
+            e.stopPropagation();
+            delButton.style.transform = "scale(1) rotate(0deg)";
+            activeDelButton = delButton;
+        });
+        record.addEventListener("mouseleave", ()=>expenseString.style.color = "white");
+        record.addEventListener("mouseenter", ()=>{
+            let dateString = record.getElementsByClassName("dateNTime")[0];
+            for(let date of expenseDates){
+                if(typeof dateString == "undefined")continue;
+                if(date == dateString.textContent){
+                    expenseString.style.color = "#11C6BA";
+                    break;
+                }
+            }
+        })
+    }
+
+    document.addEventListener("click", ()=>{
+        if(typeof activeDelButton != "undefined" && activeDelButton){
+            activeDelButton.style.transform = "scale(0) rotate(180deg)";
+            activeDelButton = null;
+        }
+    })
+
+    let expenseDates = [];
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           let response = JSON.parse(req.responseText);
+           for(let rec of response){
+               expenseDates.push(formatDate(rec.timestamp));
+           }
+        }
+    };
+    req.open("GET", "/admin/expenses", true);
+    req.send();
+
+    let h3s = document.getElementsByTagName("h3");
+    let h4s = document.getElementsByTagName("h4");
+    let headings = [...h3s,...h4s];
+    for(let heading of headings){
+        heading.addEventListener("click", (e)=>e.preventDefault());
+    }
+</script>
