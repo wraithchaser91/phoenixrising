@@ -63,8 +63,9 @@
                 <% let ddDif = (i+1 < balances.length?balances[i].davesDividend-balances[i+1].davesDividend:"0") %>
                 <% let sdDif = (i+1 < balances.length?balances[i].stevesDividend-balances[i+1].stevesDividend:"0") %>
                 <% let totalDif = (i+1 < balances.length?balances[i].total-balances[i+1].total:"0") %>
+                <% let dayDiff = (i+1 < balances.length?findTimeDifference(formatDate(balances[i].timestamp), formatDate(balances[i+1].timestamp)):0); %>
                 <div class="flex-column">
-                    <h4 class="smallGreenNumber"><%= `${formatDateWithTimes(balances[i].timestamp).split(" ")[1]}` %></h4>
+                    <h4 class="<%= `small${(dayDiff>1?"Red":"Green")}Number` %>"><%= `${formatDateWithTimes(balances[i].timestamp).split(" ")[1]}` %></h4>
                     <h3 class="dateNTime"><%= `${formatDate(balances[i].timestamp)}` %></h3>
                 </div>
                 <div class="flex-column">
