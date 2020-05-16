@@ -21,7 +21,7 @@
         </div>
         <h3>Would you like to choose another player?</h3>
     <%}else{%>
-        <h3>Please choose a player and enter there current balance</h3>
+        <h3>Please choose a player and enter their current balance</h3>
     <%}%>
     <form action="/admin/playertracker" method="POST" id="playerSearch">
         <label for="playername">Player name</label>
@@ -33,7 +33,7 @@
             <%})%>
         </select>
         <label for="balance">Current Balance</label>
-        <input type="text" name="balance" autofocus required>
+        <input type="text" name="balance" autofocus required value=0>
         <button type="submit">Calculate</button>
     </form>
 </div>
