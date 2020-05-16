@@ -191,6 +191,59 @@ router.get("/logs", async(req,res)=>{
     render(req,res,"admin/logs", {css,logs});
 });
 
+router.get("/playertracker", async(req,res)=>{
+    let players;
+    try{
+        players = await User.find({}).sort({realName:1}).exec();
+    }catch(e){
+        if(errorLog(e,req,res,"Error getting players","/admin"))return;
+    }
+    let newCSS = [...css,"playerTracker"];
+    render(req,res,"admin/playerTracker",{css:newCSS,players});
+});
+
+router.post("/playertracker", async(req,res)=>{
+    let player;
+    let players;
+    let records;
+    let values = [];
+    try{
+        players = await User.find({}).sort({realName:1}).exec();
+        if(typeof players == "undefined" || players == null){
+            if(errorLog(e,req,res,"Error getting players","/admin"))return;    
+        }
+        let playername = req.body.playername;
+        for(let p of players){
+            if(p.realName == playername){
+                player = p;
+                break;
+            }
+        }
+        if(typeof player == "undefined" || player == null){
+            if(errorLog(e,req,res,"Error getting players","/admin"))return;    
+        }
+        records = await Record.find({player:player.realName});
+        if(typeof records == "undefined" || records == null){
+            if(errorLog(e,req,res,"Error getting players","/admin"))return;
+        }
+        let deposit = 0;
+        let withdrawal = 0;
+        for(let record of records){
+            if(record.type == "Deposit"){
+                deposit+= record.amount;
+            }else{
+                withdrawal+=record.amount;
+            }
+        }
+        values = [req.body.balance,deposit,withdrawal];
+    }catch(e){
+        if(errorLog(e,req,res,"Error getting players","/admin"))return;
+    }
+    let newCSS = [...css,"playerTracker"];
+    render(req,res,"admin/playertracker",{css:newCSS,players,player,values,records});
+});
+
+////////*****DELETE ROUTES*****\\\\\\\\\\\
 router.delete("/deleteRecord/:id", async(req, res)=>{
     try{
         let record = await Record.findById(req.params.id);
@@ -221,6 +274,7 @@ router.delete("/deleteBalance/:id", async(req, res)=>{
     res.redirect("/admin");
 });
 
+////////*****FUNCTIONS*****\\\\\\\\\\\
 findTotal = records =>{
     let amount = 0;
     for(let record of records){
@@ -242,6 +296,14 @@ findTotalExpenses = records =>{
     return totalExpenses;
 }
 
+filterLogs = (logs,toFilter) =>{
+    for(let string of toFilter){
+        logs = logs.filter(item=>!item.message.includes(string));
+    }
+    return logs;
+}
+
+//////******AJAX******\\\\\\
 router.get("/expenses", async(req,res)=>{
     let expenses = [];
     try{
@@ -251,12 +313,5 @@ router.get("/expenses", async(req,res)=>{
     }
     res.json((expenses));
 });
-
-filterLogs = (logs,toFilter) =>{
-    for(let string of toFilter){
-        logs = logs.filter(item=>!item.message.includes(string));
-    }
-    return logs;
-}
 
 module.exports = router;

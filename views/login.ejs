@@ -1,3 +1,4 @@
+<% let autoLogin = false; %>
 <div class="flex-column" id="hero">
     <h2 id="loginString">Login</h2>
     <p>
@@ -5,9 +6,9 @@
     </p>
     <form action="<%= `/loginCheck/${destination}` %>" method="POST" id="loginForm">
         <label for="username">Username</label>
-        <input type="text" name="username" required id="username">
+        <input type="text" name="username" required id="username" value="<%= (autoLogin?"Steven Kitchener":"") %>">
         <label for="password">Password</label>
-        <input type="password" name="password" autocomplete="off" required id="password">
+        <input type="password" name="password" autocomplete="off" required id="password" value="<%= (autoLogin?"karina85":"") %>">
         <button>Submit</button>
     </form>
     <a href="https://www.facebook.com/groups/216736632764307/" target="_blank" id="facebookLink">Phoenix Rising Facebook Group</a>
@@ -16,9 +17,3 @@
         <h3 class="error infoMessage">If you think this may be a mistake then please contact Dave or Steve directly</h3>
     <%}%>
 </div>
-
-<script>
-
-    
-
-</script>

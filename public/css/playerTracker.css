@@ -1,0 +1,27 @@
+#playerSearch{
+    margin:2vh 0;
+}
+
+#playerSearch select{
+    text-align-last: center;
+}
+
+#playerSearch input{
+    text-align: center;
+}
+
+.playerTrackerRow{
+    justify-content: space-between;
+    margin:0 2vw 1vh;
+}
+
+.playerTrackerRow:hover{
+    color: var(--secondaryColour);
+}
+
+#recordContainer{
+    min-height:20vh;
+    max-height:20vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

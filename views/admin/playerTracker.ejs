@@ -1,0 +1,39 @@
+<div class="flex-column" id="hero">
+    <h1>Player Tracker</h1>
+    <% if(typeof player != "undefined"){%>
+        <div class="raisedDiv flex-column centeredColumn">
+            <h2><%= player.realName %></h2>
+            <div class="flex-row playerTrackerRow"><h3>Currrent Balance:</h3> <h3> £<%= values[0] %> </h3></div>
+            <div class="flex-row playerTrackerRow"><h3>Total Deposited:</h3> <h3> £<%= values[1] %> </h3></div>
+            <div class="flex-row playerTrackerRow"><h3>Total Withdrawn:</h3> <h3> £<%= values[2] %> </h3></div>
+            <div class="flex-row playerTrackerRow"><h3>Current P/L:</h3> <h3> £<%= (values[0]-values[1]+values[2]).toFixed(2) %></h3></div>
+            <div class="flex-column raisedDiv" id="recordContainer">
+                <% for(let i = records.length-1; i>=0; i--){%>
+                    <div class="flex-row recordRow">
+                        <h3><%= records[i].player %></h3>
+                        <h3>£<%= records[i].amount %></h3>
+                        <h3><%= records[i].type %></h3>
+                        <h3><%= `${formatDate(records[i].timestamp)}`%></h3>
+                        <form action="<%= `/admin/deleteRecord/${records[i]._id}?_method=DELETE` %>" method="POST"><button type="submit">X</button></form>
+                    </div>
+                <%}%>
+            </div>
+        </div>
+        <h3>Would you like to choose another player?</h3>
+    <%}else{%>
+        <h3>Please choose a player and enter there current balance</h3>
+    <%}%>
+    <form action="/admin/playertracker" method="POST" id="playerSearch">
+        <label for="playername">Player name</label>
+        <select name="playername">
+            <% players.forEach(item=>{ %>
+                <% if(item.realName != "??"){%>
+                    <option value="<%= item.realName %>"><%= item.realName %></option>
+                <%}%>
+            <%})%>
+        </select>
+        <label for="balance">Current Balance</label>
+        <input type="text" name="balance" autofocus required>
+        <button type="submit">Calculate</button>
+    </form>
+</div>
