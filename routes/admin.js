@@ -240,7 +240,7 @@ router.post("/playertracker", async(req,res)=>{
         if(errorLog(e,req,res,"Error getting players","/admin"))return;
     }
     let newCSS = [...css,"playerTracker"];
-    render(req,res,"admin/playertracker",{css:newCSS,players,player,values,records});
+    render(req,res,"admin/playerTracker",{css:newCSS,players,player,values,records});
 });
 
 ////////*****DELETE ROUTES*****\\\\\\\\\\\
